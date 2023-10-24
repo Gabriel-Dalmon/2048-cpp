@@ -2,15 +2,16 @@
 //
 
 #include <iostream>
-#include <conio.h>
 #include "include/gamelogic/Board.h"
 #include "include/engine/ConsoleRenderer.h"
+#include "include/engine/ConsoleInput.h"
 
 
 int main()
 {
     srand(time(nullptr));
     ConsoleRenderer* renderer = new ConsoleRenderer();
+    ConsoleInput* inputManager = new ConsoleInput();
     Board* board = new Board(4);
 
     int isPlaying = 1;
@@ -53,6 +54,7 @@ int main()
     }
     
 
+    delete inputManager;
     delete board;
     delete renderer;
     

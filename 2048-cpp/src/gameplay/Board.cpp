@@ -32,7 +32,7 @@ void Board::generateGrid(int gridSize[2])
 	this->grid.resize(gridSize[0] * gridSize[1]);
 	for (int i = 0; i < gridSize[0] * gridSize[1]; i++)
 	{
-		this->grid[i] = 0;
+		this->grid[i].value = 0;
 	}
 	this->addRandomTile(2);
 }
@@ -42,7 +42,7 @@ std::vector<int> Board::getFreeCells()
 	std::vector<int> freeCells;
 	for (int i = 0; i < this->gridSize[0] * this->gridSize[1]; i++)
 	{
-		if (this->grid[i] == 0)
+		if (this->grid[i].value == 0)
 		{
 			freeCells.push_back(i);
 		}
@@ -59,7 +59,7 @@ void Board::addRandomTile(int amountOfTiles)
 		if (freeCells.size() > 0) {
 			int randomFreeCellIndex = rand() % freeCells.size();
 			int randomValue = 2 + 2*( rand() % 2); // 2 or 4
-			this->grid[freeCells[randomFreeCellIndex]] = randomValue; 
+			this->grid[freeCells[randomFreeCellIndex]].value = randomValue;
 			freeCells.erase(freeCells.begin() + randomFreeCellIndex);
 		}
 		else {

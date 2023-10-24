@@ -20,12 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\engine\input management\ConsoleInput.cpp" />
     <ClCompile Include="src\engine\rendering\ConsoleRenderer.cpp" />
     <ClCompile Include="src\gameplay\Board.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="data\globals.h" />
+    <ClInclude Include="include\engine\AbstractInput.h" />
     <ClInclude Include="include\engine\AbstractRenderer.h" />
+    <ClInclude Include="include\engine\ConsoleInput.h" />
     <ClInclude Include="include\engine\ConsoleRenderer.h" />
     <ClInclude Include="include\gamelogic\Board.h" />
   </ItemGroup>
