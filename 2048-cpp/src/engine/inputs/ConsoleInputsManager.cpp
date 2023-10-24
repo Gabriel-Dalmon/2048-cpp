@@ -1,10 +1,10 @@
 #include <iostream>
 #include <conio.h>
 
-#include "../../include/engine/ConsoleInput.h"
+#include "../../include/engine/ConsoleInputManager.h"
 #include "../../data/globals.h"
 
- int ConsoleInput::manageInput()
+ int ConsoleInputManager::manageInput()
 {
 	 int input = _getch();
 	 switch (input) {
