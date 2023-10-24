@@ -18,9 +18,10 @@ int Board::getGridLength(GridDimension lengthIndex)
 }
 
 
-void Board::updateGrid(int slideDirection[2])
+void Board::updateGrid(int slideDirection)
 {
 	this->addRandomTile(2);
+	this->slideTiles(slideDirection);
 	
 }
 
@@ -33,6 +34,7 @@ void Board::generateGrid(int gridSize[2])
 	{
 		this->grid[i] = 0;
 	}
+	this->addRandomTile(2);
 }
 
 std::vector<int> Board::getFreeCells()
@@ -67,7 +69,75 @@ void Board::addRandomTile(int amountOfTiles)
 	std::cout << std::endl;
 }
 
-void Board::slideTiles(int slideDirection[2])
+void Board::slideTiles(int slideDirection)
 {
+	switch (slideDirection) {
+	case 72: //up
+		for (int column = 0; column < 4; column++) {
+			for (int row = 1; row <= 3; row++) {
+				if (this->grid[row * 4 + column] != 0) {
+					if(this->grid[(row - 1) * 4 + column] == 0) {
+						this->grid[(row - 1) * 4 + column] = this->grid[row * 4 + column];
+						this->grid[row * 4 + column] = 0;
+					}
+					else if (this->grid[(row - 1) * 4 + column] == this->grid[row * 4 + column]) {//fusion
+						this->grid[(row - 1) * 4 + column] *= 2;
+						this->grid[row * 4 + column] = 0;
+					}
+				}
+			}
+		}
+		break;
 
+	case 75: //left
+		for (int row = 0; row < 4; row++) {
+			for (int column = 1; column <= 3; column++) {
+				if (this->grid[row * 4 + column] != 0) {
+					if(this->grid[row * 4 + column - 1] == 0) {
+						this->grid[row * 4 + column - 1] = this->grid[row * 4 + column];
+						this->grid[row * 4 + column] = 0;
+					}
+					else if (this->grid[row * 4 + column - 1] == grid[row * 4 + column]) {//fusion
+						this->grid[row * 4 + column - 1] *= 2;
+						this->grid[row * 4 + column] = 0;
+					}
+				}
+			}
+		}
+		break;
+
+	case 77: //right
+		for (int row = 0; row < 4; row++) {
+			for (int column = 2; column >= 0; column--) {
+				if (this->grid[row * 4 + column] != 0) {
+					if(this->grid[row * 4 + column + 1] == 0) {
+						this->grid[row * 4 + column + 1] = this->grid[row * 4 + column];
+						this->grid[row * 4 + column] = 0;
+					}
+					else if (this->grid[row * 4 + column + 1] == this->grid[row * 4 + column]) {//fusion
+						this->grid[row * 4 + column + 1] *= 2;
+						this->grid[row * 4 + column] = 0;
+					}
+				}
+			}
+		}
+		break;
+
+	case 80: //down
+		for (int column = 0; column < 4; column++) {
+			for (int row = 2; row >= 0; row--) {
+				if (this->grid[row * 4 + column] != 0) {
+					if(this->grid[(row + 1) * 4 + column] == 0) {
+						this->grid[(row + 1) * 4 + column] = this->grid[row * 4 + column];
+						this->grid[row * 4 + column] = 0;
+					}
+					else if(this->grid[(row + 1) * 4 + column] == this->grid[row * 4 + column]){ //fusion
+						this->grid[(row + 1) * 4 + column] *= 2;
+						this->grid[row * 4 + column] = 0;
+					}
+				}
+			}
+		}
+		break;
+	}
 }

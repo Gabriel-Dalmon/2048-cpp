@@ -13,12 +13,12 @@ public:
 	~Board();
 
 	int getGridLength( GridDimension lengthIndex );
-	void updateGrid( int slideDirection[2] );
+	void updateGrid( int slideDirection );
 	
 private:
 	
 	void generateGrid( int gridSize[2] );
 	std::vector<int> getFreeCells();
 	void addRandomTile( int amountOfTiles );
-	void slideTiles( int slideDirection[2] );
+	void slideTiles( int slideDirection );
 };
