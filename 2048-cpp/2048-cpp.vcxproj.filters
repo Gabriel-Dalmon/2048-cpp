@@ -27,6 +27,9 @@
     <ClCompile Include="src\gameplay\Board.cpp">
       <Filter>Sources files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\input management\ConsoleInput.cpp">
+      <Filter>Sources files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\engine\AbstractRenderer.h">
@@ -39,6 +42,12 @@
       <Filter>Headers files</Filter>
     </ClInclude>
     <ClInclude Include="data\globals.h">
+      <Filter>Headers files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\AbstractInput.h">
+      <Filter>Headers files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\ConsoleInput.h">
       <Filter>Headers files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,7 +12,7 @@ void ConsoleRenderer::render(Board* board)
 	{
 		for (int x = 0; x < boardWidth; x++)
 		{
-			std::cout << board->grid[y * boardWidth + x] << " ";
+			std::cout << board->grid[y * boardWidth + x].value << " ";
 		}
 
 		std::cout << std::endl;

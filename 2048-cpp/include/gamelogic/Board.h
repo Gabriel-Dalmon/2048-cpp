@@ -3,10 +3,16 @@
 #include <vector>
 #include "../../data/globals.h"
 
+struct Tile
+{
+	int value;
+	int mergedThisTurn;
+};
+
 class Board
 {
 public:
-	std::vector<int> grid;
+	std::vector< Tile > grid;
 	int gridSize[2];
 
 	Board(int sideSize);
