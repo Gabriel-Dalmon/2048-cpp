@@ -18,14 +18,14 @@ int Board::getGridLength(GridDimension lengthIndex)
 }
 
 
-void Board::updateGrid(int slideDirection)
+void Board::updateGrid(int slideDirection[2])
 {
-	this->addRandomTile(2);
-	this->slideTiles(slideDirection);
+	if(slideDirection[0] != 0 || slideDirection[1] != 0){
+		this->slideTiles(slideDirection);
+		//this->addRandomTile(2);
+	}
 	
 }
-
-
 
 void Board::generateGrid(int gridSize[2])
 {
@@ -69,75 +69,32 @@ void Board::addRandomTile(int amountOfTiles)
 	std::cout << std::endl;
 }
 
-void Board::slideTiles(int slideDirection)
+void Board::slideTiles(int slideDirection[2])
 {
-	switch (slideDirection) {
-	case 72: //up
-		for (int column = 0; column < 4; column++) {
-			for (int row = 1; row <= 3; row++) {
-				if (this->grid[row * 4 + column] != 0) {
-					if(this->grid[(row - 1) * 4 + column] == 0) {
-						this->grid[(row - 1) * 4 + column] = this->grid[row * 4 + column];
-						this->grid[row * 4 + column] = 0;
-					}
-					else if (this->grid[(row - 1) * 4 + column] == this->grid[row * 4 + column]) {//fusion
-						this->grid[(row - 1) * 4 + column] *= 2;
-						this->grid[row * 4 + column] = 0;
-					}
-				}
-			}
-		}
-		break;
+	int direction = slideDirection[0];
+	int axis = slideDirection[1];
+	int oppositeAxis = 1 - axis;
+	int hasNegativeDirection = direction == -1 ? 1 : 0;
 
-	case 75: //left
-		for (int row = 0; row < 4; row++) {
-			for (int column = 1; column <= 3; column++) {
-				if (this->grid[row * 4 + column] != 0) {
-					if(this->grid[row * 4 + column - 1] == 0) {
-						this->grid[row * 4 + column - 1] = this->grid[row * 4 + column];
-						this->grid[row * 4 + column] = 0;
-					}
-					else if (this->grid[row * 4 + column - 1] == grid[row * 4 + column]) {//fusion
-						this->grid[row * 4 + column - 1] *= 2;
-						this->grid[row * 4 + column] = 0;
-					}
+	int dimensionsIndexes[2];
+	for (int i = 0; i < this->gridSize[axis]; i++) {
+		dimensionsIndexes[axis] = i; //if orientation = 1 (vertical slide), int i will be the column index in lines
+		for (int j = 1; j < this->gridSize[oppositeAxis]; j++) {
+			dimensionsIndexes[oppositeAxis] = (this->gridSize[oppositeAxis] - j - 1 ) * (1 - hasNegativeDirection) + j * hasNegativeDirection; //if direction is 
+			int cursor = dimensionsIndexes[0] * this->gridSize[0] + dimensionsIndexes[1];
+			int cursorRed = (dimensionsIndexes[0] + ( direction * axis)) * this->gridSize[0] + dimensionsIndexes[1] + (direction * oppositeAxis);
+			if (this->grid[cursor] != 0) {
+				if (this->grid[cursorRed] == 0) {
+					this->grid[cursorRed] = this->grid[cursor];
+					this->grid[cursor] = 0;
+				}
+				else if (this->grid[cursorRed] == this->grid[cursor]) {
+					this->grid[cursorRed] = this->grid[cursorRed] * 2;
+					this->grid[cursor] = 0;
 				}
 			}
+		
 		}
-		break;
-
-	case 77: //right
-		for (int row = 0; row < 4; row++) {
-			for (int column = 2; column >= 0; column--) {
-				if (this->grid[row * 4 + column] != 0) {
-					if(this->grid[row * 4 + column + 1] == 0) {
-						this->grid[row * 4 + column + 1] = this->grid[row * 4 + column];
-						this->grid[row * 4 + column] = 0;
-					}
-					else if (this->grid[row * 4 + column + 1] == this->grid[row * 4 + column]) {//fusion
-						this->grid[row * 4 + column + 1] *= 2;
-						this->grid[row * 4 + column] = 0;
-					}
-				}
-			}
-		}
-		break;
-
-	case 80: //down
-		for (int column = 0; column < 4; column++) {
-			for (int row = 2; row >= 0; row--) {
-				if (this->grid[row * 4 + column] != 0) {
-					if(this->grid[(row + 1) * 4 + column] == 0) {
-						this->grid[(row + 1) * 4 + column] = this->grid[row * 4 + column];
-						this->grid[row * 4 + column] = 0;
-					}
-					else if(this->grid[(row + 1) * 4 + column] == this->grid[row * 4 + column]){ //fusion
-						this->grid[(row + 1) * 4 + column] *= 2;
-						this->grid[row * 4 + column] = 0;
-					}
-				}
-			}
-		}
-		break;
 	}
+
 }

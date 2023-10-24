@@ -15,12 +15,41 @@ int main()
 
     int isPlaying = 1;
     int input;
+    int slideMovement[2];
 
     while (isPlaying == 1) {
         renderer->render(board);
 
         input = _getch();
-        board->updateGrid(input);
+        switch (input) {
+            case 72: // up
+                std::cout << "up" << std::endl;
+			    slideMovement[0] = -1;
+			    slideMovement[1] = 1;
+			    break;
+            case 80: // down
+                std::cout << "down" << std::endl;
+                slideMovement[0] = 1;
+                slideMovement[1] = 1;
+                break;
+            case 75: // left
+                std::cout << "left" << std::endl;
+                slideMovement[0] = -1;
+                slideMovement[1] = 0;
+                break;
+            case 77: // right
+                std::cout << "right" << std::endl;
+                slideMovement[0] = 1;
+				slideMovement[1] = 0;
+				break;
+            default :
+                slideMovement[0] = 0;
+                slideMovement[1] = 0;
+                break;
+        }
+        board->updateGrid(slideMovement);
+        slideMovement[0] = 0;
+        slideMovement[1] = 0;
     }
     
 
