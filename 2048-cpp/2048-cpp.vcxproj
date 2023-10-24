@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\engine\inputs\ConsoleInputsManager.cpp" />
+    <ClCompile Include="src\engine\input\ConsoleInputManager.cpp" />
     <ClCompile Include="src\engine\rendering\ConsoleRenderer.cpp" />
     <ClCompile Include="src\gameplay\Board.cpp" />
   </ItemGroup>
