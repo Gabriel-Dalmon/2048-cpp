@@ -17,7 +17,6 @@ public:
 	void resize(int size);
 	void resize(int width, int height);
 
-	T& operator[](int index);
 	T& operator[](int index[2]);
 
 	void setValue(int index[2], T value);

@@ -6,7 +6,7 @@
 #include "include/gamelogic/Board.h"
 #include "include/engine/ConsoleRenderer.h"
 #include "include/engine/ConsoleInputManager.h"
-
+#include "include/utils/Vector2D.h"
 
 int main()
 {
@@ -18,6 +18,9 @@ int main()
     int isPlaying = 1;
     int input;
     int slideMovement[2];
+
+    Vector2D<int>* vectTwoD = new Vector2D<int>(5);
+
 
     while (isPlaying == 1) {
         renderer->render(board);

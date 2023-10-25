@@ -40,12 +40,6 @@ void Vector2D<T>::resize(int width, int height)
 }
 
 template<typename T>
-T& Vector2D<T>::operator[](int index)
-{
-	return this[index];
-}
-
-template<typename T>
 T& Vector2D<T>::operator[](int index[2])
 {
 	return this[index[0]*this->size[0] + index[2]];

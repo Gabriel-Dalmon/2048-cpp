@@ -22,7 +22,7 @@ void Board::updateGrid(int slideDirection[2])
 {
 	if(slideDirection[0] != 0 || slideDirection[1] != 0){
 		this->slideTiles(slideDirection);
-		//this->addRandomTile(2);
+		this->addRandomTile(2);
 	}
 	
 }
