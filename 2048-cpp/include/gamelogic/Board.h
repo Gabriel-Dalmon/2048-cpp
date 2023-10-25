@@ -13,7 +13,7 @@ struct Tile
 class Board
 {
 public:
-	std::vector<Tile> grid;
+	std::vector<Tile*> grid;
 	int gridSize[2];
 
 	Board(int sideSize);
