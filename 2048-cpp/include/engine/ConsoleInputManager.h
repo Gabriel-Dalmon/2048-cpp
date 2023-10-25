@@ -7,5 +7,5 @@ class ConsoleInputManager : public AbstractInputManager
 public:
 	ConsoleInputManager() {};
 	~ConsoleInputManager() {};
-	int manageInput();
+	void manageInput(int* slideMovement);
 };

@@ -69,7 +69,7 @@ void Board::addRandomTile(int amountOfTiles)
 	std::cout << std::endl;
 }
 
-/*void Board::slideTiles(int slideDirection[2])
+void Board::slideTiles(int slideDirection[2])
 {
 	int direction = slideDirection[0];
 	int axis = slideDirection[1];
@@ -81,25 +81,29 @@ void Board::addRandomTile(int amountOfTiles)
 		dimensionsIndexes[axis] = i; //if orientation = 1 (vertical slide), int i will be the column index in lines
 		for (int j = 1; j < this->gridSize[oppositeAxis]; j++) {
 			dimensionsIndexes[oppositeAxis] = (this->gridSize[oppositeAxis] - j - 1 ) * (1 - hasNegativeDirection) + j * hasNegativeDirection; //if direction is 
+			/*interret a pas mettre cursor red apres le if ?*/
 			int cursor = dimensionsIndexes[0] * this->gridSize[0] + dimensionsIndexes[1];
 			int cursorRed = (dimensionsIndexes[0] + ( direction * axis)) * this->gridSize[0] + dimensionsIndexes[1] + (direction * oppositeAxis);
 			if (this->grid[cursor].value != 0) {
-				if (this->grid[cursorRed].value == 0) {
-					this->grid[cursorRed].value = this->grid[cursor].value;
-					this->grid[cursor].value = 0;
-				}
-				else if (this->grid[cursorRed].value == this->grid[cursor].value) {
-					this->grid[cursorRed].value = this->grid[cursorRed].value * 2;
-					this->grid[cursor].value = 0;
+				//while (this->grid[cursor].value != 0 && this->grid[cursor].stuck == 0)
+				{
+					if (this->grid[cursorRed].value == 0) {
+						this->grid[cursorRed].value = this->grid[cursor].value;
+						this->grid[cursor].value = 0;
+					}
+					else if (this->grid[cursorRed].value == this->grid[cursor].value) {
+						this->grid[cursorRed].value = this->grid[cursorRed].value * 2;
+						this->grid[cursor].value = 0;
+					}
 				}
 			}
 		
 		}
 	}
 
-}*/
+}
 
-
+/*
 void Board::slideTiles(int slideDirection[2])
 {
 	int virtualPose = 0;
@@ -140,4 +144,4 @@ void Board::slideTiles(int slideDirection[2])
 			this->grid[row * 4 + column].stuck = 0;
 		}
 	}
-}
+}*/
