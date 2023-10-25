@@ -30,6 +30,9 @@
     <ClCompile Include="src\engine\input\ConsoleInputManager.cpp">
       <Filter>Sources files</Filter>
     </ClCompile>
+    <ClCompile Include="src\utils\Vector2D.cpp">
+      <Filter>Sources files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\engine\AbstractRenderer.h">
@@ -48,6 +51,9 @@
       <Filter>Headers files</Filter>
     </ClInclude>
     <ClInclude Include="include\engine\ConsoleInputManager.h">
+      <Filter>Headers files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\Vector2D.h">
       <Filter>Headers files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -75,8 +75,8 @@ void Board::slideTiles(int slideDirection[2])
 	int axis = slideDirection[1];
 	int oppositeAxis = 1 - axis;
 	int hasNegativeDirection = direction == -1 ? 1 : 0;
-
 	int dimensionsIndexes[2];
+
 	for (int i = 0; i < this->gridSize[axis]; i++) {
 		dimensionsIndexes[axis] = i; //if orientation = 1 (vertical slide), int i will be the column index in lines
 		for (int j = 1; j < this->gridSize[oppositeAxis]; j++) {
