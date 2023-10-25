@@ -48,6 +48,7 @@ int main()
         board->updateGrid(slideMovement);
         slideMovement[0] = 0;
         slideMovement[1] = 0;
+        input = 0;
     }
     
 

@@ -22,7 +22,7 @@ void Board::updateGrid(int slideDirection[2])
 {
 	if(slideDirection[0] != 0 || slideDirection[1] != 0){
 		this->slideTiles(slideDirection);
-		//this->addRandomTile(2);
+		this->addRandomTile(1);
 	}
 	
 }
@@ -32,7 +32,7 @@ void Board::generateGrid(int gridSize[2])
 	this->grid.resize(gridSize[0] * gridSize[1]);
 	for (int i = 0; i < gridSize[0] * gridSize[1]; i++)
 	{
-		this->grid[i] = 0;
+		this->grid[i].value = 0;
 	}
 	this->addRandomTile(2);
 }
@@ -42,7 +42,7 @@ std::vector<int> Board::getFreeCells()
 	std::vector<int> freeCells;
 	for (int i = 0; i < this->gridSize[0] * this->gridSize[1]; i++)
 	{
-		if (this->grid[i] == 0)
+		if (this->grid[i].value == 0)
 		{
 			freeCells.push_back(i);
 		}
@@ -59,7 +59,7 @@ void Board::addRandomTile(int amountOfTiles)
 		if (freeCells.size() > 0) {
 			int randomFreeCellIndex = rand() % freeCells.size();
 			int randomValue = 2 + 2*( rand() % 2); // 2 or 4
-			this->grid[freeCells[randomFreeCellIndex]] = randomValue;
+			this->grid[freeCells[randomFreeCellIndex]].value = randomValue;
 			freeCells.erase(freeCells.begin() + randomFreeCellIndex);
 		}
 		else {
@@ -69,7 +69,7 @@ void Board::addRandomTile(int amountOfTiles)
 	std::cout << std::endl;
 }
 
-void Board::slideTiles(int slideDirection[2])
+/*void Board::slideTiles(int slideDirection[2])
 {
 	int direction = slideDirection[0];
 	int axis = slideDirection[1];
@@ -83,18 +83,61 @@ void Board::slideTiles(int slideDirection[2])
 			dimensionsIndexes[oppositeAxis] = (this->gridSize[oppositeAxis] - j - 1 ) * (1 - hasNegativeDirection) + j * hasNegativeDirection; //if direction is 
 			int cursor = dimensionsIndexes[0] * this->gridSize[0] + dimensionsIndexes[1];
 			int cursorRed = (dimensionsIndexes[0] + ( direction * axis)) * this->gridSize[0] + dimensionsIndexes[1] + (direction * oppositeAxis);
-			if (this->grid[cursor] != 0) {
-				if (this->grid[cursorRed] == 0) {
-					this->grid[cursorRed] = this->grid[cursor];
-					this->grid[cursor] = 0;
+			if (this->grid[cursor].value != 0) {
+				if (this->grid[cursorRed].value == 0) {
+					this->grid[cursorRed].value = this->grid[cursor].value;
+					this->grid[cursor].value = 0;
 				}
-				else if (this->grid[cursorRed] == this->grid[cursor]) {
-					this->grid[cursorRed] = this->grid[cursorRed] * 2;
-					this->grid[cursor] = 0;
+				else if (this->grid[cursorRed].value == this->grid[cursor].value) {
+					this->grid[cursorRed].value = this->grid[cursorRed].value * 2;
+					this->grid[cursor].value = 0;
 				}
 			}
 		
 		}
 	}
 
+}*/
+
+
+void Board::slideTiles(int slideDirection[2])
+{
+	int virtualPose = 0;
+	for (int row = 0; row < 4; row++) {
+		for (int column = 3; column >= 0; column--) {
+			if (this->grid[row * 4 + column].value != 0) {
+				virtualPose = row * 4 + column;
+				while(this->grid[row * 4 + column].value != 0 && this->grid[row * 4 + column].stuck == 0)
+				{
+					if (virtualPose + 1 >= 4 * (row + 1)) {//if border
+						if (virtualPose != row * 4 + column) { 
+							this->grid[virtualPose].value = this->grid[row * 4 + column].value;
+							this->grid[row * 4 + column].value = 0;
+						}
+						this->grid[virtualPose].stuck = 1;
+					}
+					else if (this->grid[virtualPose + 1].value == 0) {
+						virtualPose ++;
+					}
+					else if (this->grid[virtualPose +1].value == this->grid[row * 4 + column].value && this->grid[virtualPose + 1].stuck != 2) {//fusion
+						this->grid[virtualPose + 1].value *= 2;
+						this->grid[row * 4 + column].value = 0;
+						this->grid[virtualPose + 1].stuck = 2;
+					}
+					else {
+						if (virtualPose != row * 4 + column) {
+							this->grid[virtualPose].value = this->grid[row * 4 + column].value;
+							this->grid[row * 4 + column].value = 0;
+						}
+						this->grid[virtualPose].stuck = 1;
+					}
+				}
+			}
+		}
+	}
+	for (int row = 0; row < 4; row++) {
+		for (int column = 3; column >= 0; column--) {
+			this->grid[row * 4 + column].stuck = 0;
+		}
+	}
 }
