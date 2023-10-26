@@ -1,4 +1,6 @@
+/*#include <vector>
 #include "../../include/utils/Vector2D.h"
+
 
 template<typename T>
 Vector2D<T>::Vector2D(int size)
@@ -17,6 +19,7 @@ Vector2D<T>::Vector2D(int width, int height)
 template<typename T>
 Vector2D<T>::~Vector2D()
 {
+	int a = 0;
 }
 
 template<typename T>
@@ -42,13 +45,13 @@ void Vector2D<T>::resize(int width, int height)
 template<typename T>
 T& Vector2D<T>::operator[](int index[2])
 {
-	return this[index[0]*this->size[0] + index[2]];
+	return this->at[index[0]*this->size[0] + index[2]];
 }
 
 template<typename T>
 void Vector2D<T>::setValue(int index[2], T value)
 {
-	this[index[0] * this->size[0] + index[2]] = value;
+	this[index[0]*this->size[0] + index[2]] = value;
 }
 
 template<typename T>
@@ -56,3 +59,4 @@ T Vector2D<T>::getValue(int index[2])
 {
 	return this[index[0] * this->size[0] + index[2]];
 }
+*/

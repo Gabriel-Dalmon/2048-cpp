@@ -1,8 +1,8 @@
 #include <iostream>
 #include <conio.h>
 
-#include "../../include/engine/ConsoleInputManager.h"
-#include "../../data/globals.h"
+#include "../../../include/engine/ConsoleInputManager.h"
+#include "../../../data/globals.h"
 
  int ConsoleInputManager::manageInput()
 {
@@ -24,4 +24,5 @@
 		 return 4;
 		 break;
 	 }
+	 return 0;
 }
