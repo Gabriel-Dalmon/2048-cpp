@@ -1,62 +1,49 @@
-/*#include <vector>
+#include "../../data/globals.h"
 #include "../../include/utils/Vector2D.h"
 
+template<typename T>
+Vector2D<T>::Vector2D(int size) : std::vector<T>(size * size) {
+    this->iSize[0] = size;
+    this->iSize[1] = size;
+};
 
 template<typename T>
-Vector2D<T>::Vector2D(int size)
-{
-	this->size[0] = size;
-	this->size[1] = size;
-}
+Vector2D<T>::Vector2D(int width, int height) : std::vector<T>(width * height) {
+    this->iSize[0] = width;
+    this->iSize[1] = height;
+};
 
 template<typename T>
-Vector2D<T>::Vector2D(int width, int height)
-{
-	this->size[0] = width;
-	this->size[1] = height;
-}
+int Vector2D<T>::getSingleSize(GridDimension lengthIndex) {
+	return this->iSize[lengthIndex];
+};
 
 template<typename T>
-Vector2D<T>::~Vector2D()
-{
-	int a = 0;
-}
+void Vector2D<T>::resize(int size) {
+    this->resize(size, size);
+};
 
 template<typename T>
-int Vector2D<T>::getSize()
-{
-	return this->size[0] * this->size[1];
-}
+void Vector2D<T>::resize(int width, int height) {
+    this->iSize[0] = width;
+    this->iSize[1] = height;
+    this->std::vector<T>::resize(width * height);
+};
+
+
 
 template<typename T>
-void Vector2D<T>::resize(int size)
-{
-	this->resize(size, size);
-}
+T& Vector2D<T>::operator()(int row, int col) {
+    return (*this)[row * this->iSize[0] + col];
+};
 
 template<typename T>
-void Vector2D<T>::resize(int width, int height)
-{
-	this->size[0] = width;
-	this->size[1] = height;
-	std::vector<T>::resize(width * height);
-}
+T Vector2D<T>::getValue(int row, int col) {
+	return (*this)[row * this->iSize[0] + col];
+};
 
 template<typename T>
-T& Vector2D<T>::operator[](int index[2])
-{
-	return this->at[index[0]*this->size[0] + index[2]];
-}
+void Vector2D<T>::setValue(int row, int col, T value) {
+    (*this)[row * this->iSize[0] + col] = value;
+};
 
-template<typename T>
-void Vector2D<T>::setValue(int index[2], T value)
-{
-	this[index[0]*this->size[0] + index[2]] = value;
-}
-
-template<typename T>
-T Vector2D<T>::getValue(int index[2])
-{
-	return this[index[0] * this->size[0] + index[2]];
-}
-*/

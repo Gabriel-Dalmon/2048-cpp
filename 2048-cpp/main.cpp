@@ -6,25 +6,21 @@
 #include "include/gamelogic/Board.h"
 #include "include/engine/ConsoleRenderer.h"
 #include "include/engine/ConsoleInputManager.h"
-//#include "include/utils/Vector2D.h"
+#include "include/utils/Vector2D.h"
 
-template <typename T>
+/*template <typename T>
 class Vector2D : public std::vector<T>
 {
 public:
     int iSize[2]; // [0] = width, [1] = height
 
-    Vector2D(int size): std::vector<int>(size * size) {
+    Vector2D(int size): std::vector<T>(size * size) {
         this->iSize[0] = size;
         this->iSize[1] = size;
     };
-    Vector2D(int width, int height): std::vector<int>(width* height) {
+    Vector2D(int width, int height): std::vector<T>(width * height) {
         this->iSize[0] = width;
         this->iSize[1] = height;
-    };
-
-    int getSize() {
-        return this->size();
     };
 
     void resize(int size) {
@@ -34,6 +30,10 @@ public:
         this->iSize[0] = width;
         this->iSize[1] = height;
         this->std::vector<T>::resize(width * height);
+    };
+
+    int getVectorLength(GridDimension lengthIndex) {
+        return this->iSize[lengthIndex];
     };
 
     T& operator()(int row, int col) {
@@ -47,7 +47,7 @@ public:
     T getValue(int row, int col) {
         return (*this)[row * this->iSize[0] + col];
     };
-};
+};*/
 
 
 int main()
@@ -62,20 +62,6 @@ int main()
     int slideMovement[2];
 
     Vector2D<int> vectTwoD(4);
-    std::cout << vectTwoD.getSize() << std::endl;
-    vectTwoD.resize(5);
-    std::cout << vectTwoD.getSize() << std::endl;
-    Vector2D<int> vectTwoDSECONDARY(4,2);
-    std::cout << vectTwoDSECONDARY.getSize() << std::endl;
-    vectTwoDSECONDARY.resize(5,4);
-    std::cout << vectTwoDSECONDARY.getSize() << std::endl;
-    std::cout << vectTwoDSECONDARY.getValue(0,0) << std::endl;
-    vectTwoDSECONDARY.setValue(0, 0, 5);
-    std::cout << vectTwoDSECONDARY.getValue(0, 0) << std::endl;
-    std::cout << vectTwoDSECONDARY(0, 0) << std::endl;
-    vectTwoDSECONDARY(0, 0) = 10;
-    std::cout << vectTwoDSECONDARY[0] << std::endl;
-    //std::cout << vectTwoD.getValue(0,0) << std::endl;
 
     while (isPlaying == 1) {
         renderer->render(board);

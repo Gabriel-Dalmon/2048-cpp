@@ -71,6 +71,14 @@ void Board::addRandomTile(int amountOfTiles)
 
 void Board::slideTiles(int slideDirection[2])
 {
+	/*
+	bool slideDirection[2];
+	bool direction = slideDirection[0];					//right/down : direction = 0 ;		left/up : direction = 1
+	int cursorOffsetDirection = direction ? -1 : 1;		//right/down : direction = 1 ;		left/up : direction = -1
+	bool axis = slideDirection[1];						//left/right : axis = 0 ;			up/down : axis = 1
+	bool oppositeAxis = !axis;							//left/right : oppositeAxis = 1 ;	up/down : oppositeAxis = 0
+	*/
+
 	int direction = slideDirection[0];
 	int axis = slideDirection[1];
 	int oppositeAxis = 1 - axis;
