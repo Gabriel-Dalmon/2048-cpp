@@ -2,16 +2,28 @@
 #include <stdlib.h>
 
 #include "../../include/gamelogic/Board.h"
+#include "../../include/gamelogic/Tile.h"
 
 Board::Board(int sideSize)
 {
+	this->position[0] = 0;
+	this->position[1] = 0;
 	this->gridSize[0] = sideSize;
 	this->gridSize[1] = sideSize;
 	this->generateGrid(gridSize);
 }
 
 Board::~Board()
-{}
+{
+	deleteGrid();
+}
+
+void Board::render() 
+{
+	for (int i = 0; i < this->gridSize[0] * this->gridSize[1]; i++) {
+		this->grid[i]->render();
+	}
+}
 
 int Board::getGridLength(GridDimension lengthIndex)
 {
@@ -33,10 +45,16 @@ void Board::generateGrid(int gridSize[2])
 	this->grid.resize(gridSize[0] * gridSize[1]);
 	for (int i = 0; i < gridSize[0] * gridSize[1]; i++)
 	{
-		this->grid[i] = (Tile*)malloc(sizeof Tile);
-		this->grid[i]->value = 0;
+		this->grid[i] = new Tile;
 	}
 	this->addRandomTile(2);
+}
+
+void Board::deleteGrid()
+{
+	for (int i = 0; i < this->gridSize[0] * this->gridSize[1]; i++) {
+		delete this->grid[i];
+	}
 }
 
 std::vector<int> Board::getFreeCells()
@@ -115,7 +133,6 @@ void Board::slideTiles(int slideDirection[2])
 				while(this->grid[row * 4 + column].value != 0 && this->grid[row * 4 + column].stuck == 0)
 				{
 					if (virtualPose + 1 >= 4 * (row + 1)) {//if border
-						if 
 						if (virtualPose != row * 4 + column) {(virtualPose != row * 4 + column) { 
 							this->grid[virtualPose].value = this->grid[row * 4 + column].value;
 							this->grid[row * 4 + column].value = 0;

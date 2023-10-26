@@ -2,15 +2,12 @@
 
 #include <vector>
 #include "../../data/globals.h"
+#include "Tile.h"
+#include "GameObject.h"
 
 
-struct Tile 
-{
-	int value;
-	int stuck;
-};
 
-class Board
+class Board : public GameObject
 {
 public:
 	std::vector<Tile*> grid;
@@ -21,6 +18,7 @@ public:
 
 	int getGridLength(GridDimension lengthIndex);
 	void updateGrid(int slideDirection[2]);
+	void render();
 
 private:
 
@@ -28,4 +26,5 @@ private:
 	std::vector<int> getFreeCells();
 	void addRandomTile(int amountOfTiles);
 	void slideTiles(int slideDirection[2]);
+	void deleteGrid();
 };
