@@ -18,4 +18,5 @@ private:
 	std::vector<int> getFreeCells();
 	void addRandomTile(int amountOfTiles);
 	void slideTiles(bool slideDirection[2]);
+	void mergeTiles(Tile* currentTile, Tile* targetTile);
 };

@@ -3,7 +3,7 @@
 
 Tile::Tile() : GameObject() {
 	this->value = 0;
-	this->stuck = false;
+	this->mergedAlready = false;
 }
 
 Tile::~Tile() {}

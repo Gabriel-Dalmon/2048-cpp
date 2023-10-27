@@ -9,7 +9,7 @@ public:
 	~Tile();
 
 	int value;
-	bool stuck;
+	bool mergedAlready;
 
 	void render();
 };
