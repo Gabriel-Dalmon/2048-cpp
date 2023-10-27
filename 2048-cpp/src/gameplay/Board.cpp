@@ -6,8 +6,8 @@
 
 Board::Board(int sideSize)
 {
-	this->position[0] = 0;
-	this->position[1] = 0;
+	this->position.x = 0;
+	this->position.y = 0;
 	this->gridSize[0] = sideSize;
 	this->gridSize[1] = sideSize;
 	this->generateGrid(gridSize);
@@ -18,10 +18,10 @@ Board::~Board()
 	deleteGrid();
 }
 
-void Board::render() 
+void Board::render(SDLScreen* screen) 
 {
 	for (int i = 0; i < this->gridSize[0] * this->gridSize[1]; i++) {
-		this->grid[i]->render();
+		this->grid[i]->render(screen);
 	}
 }
 

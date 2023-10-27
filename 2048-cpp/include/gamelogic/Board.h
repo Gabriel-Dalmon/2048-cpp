@@ -18,7 +18,7 @@ public:
 
 	int getGridLength(GridDimension lengthIndex);
 	void updateGrid(int slideDirection[2]);
-	void render();
+	void render(SDLScreen* screen);
 
 private:
 

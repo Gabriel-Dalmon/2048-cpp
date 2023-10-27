@@ -1,17 +1,16 @@
 #pragma once
 
-#include <SDL.h>
-
 #include "../../include/engine/AbstractRenderer.h"
+#include "../../data/globals.h"
+
 
 
 class SDLRenderer : public AbstractRenderer
 {
 public:
-	SDL_Window* window;
-	SDL_Renderer* renderer;
+	SDLScreen* screen;
 
 	SDLRenderer();
 	~SDLRenderer();
-	void render(Board* board);
+	void render(GameObject* object);
 };

@@ -7,5 +7,5 @@ class AbstractRenderer
 public:
 	AbstractRenderer() {};
 	~AbstractRenderer() {};
-	virtual void render(Board* board) = 0;
+	virtual void render(GameObject* object) = 0;
 };

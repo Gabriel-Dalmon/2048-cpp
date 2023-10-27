@@ -4,14 +4,15 @@
 #include <iostream>
 #include <conio.h>
 #include "include/gamelogic/Board.h"
-#include "include/engine/ConsoleRenderer.h"
+#include "include/engine/SDLRenderer.h"
 #include "include/engine/ConsoleInputManager.h"
 
 
-int main()
+int main(int argc, char* argv[1])
 {
+    std::cout << "sgohzegohol" << std::endl;
     srand(time(nullptr));
-    ConsoleRenderer* renderer = new ConsoleRenderer();
+    SDLRenderer* renderer = new SDLRenderer();
     ConsoleInputManager* inputManager = new ConsoleInputManager();
     Board* board = new Board(4);
 
@@ -34,4 +35,5 @@ int main()
     delete board;
     delete renderer;
     
+    return 0;
 }

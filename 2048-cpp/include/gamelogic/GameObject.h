@@ -2,13 +2,21 @@
 
 #include <vector>
 
+#include "../../data/globals.h"
+
+struct Position
+{
+	int x;
+	int y;
+};
+
 class GameObject
 {
 public :
 	GameObject() {};
 	~GameObject() {};
 
-	std::vector<int> position;
+	Position position;
 
-	virtual void render() {};
+	virtual void render(SDLScreen* screen) {};
 };

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <SDL.h>
+#include <SDL_image.h>
+
 #include "GameObject.h"
 
 class Tile : public GameObject 
@@ -10,6 +13,8 @@ public:
 
 	int value;
 	bool stuck;
+	SDL_Surface* sprite;
+
 	
-	void render();
+	void render(SDLScreen* screen);
 };
