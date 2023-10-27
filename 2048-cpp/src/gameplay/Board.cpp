@@ -2,40 +2,23 @@
 
 #include "../../include/gamelogic/Board.h"
 
-Board::Board(int sideSize)
+Board::Board(int sideSize): grid(sideSize)
 {
-	this->gridSize[0] = sideSize;
-	this->gridSize[1] = sideSize;
-	this->generateGrid(gridSize);
+	this->addRandomTile(2);
 }
 
 Board::~Board()
 {}
 
-int Board::getGridLength(GridDimension lengthIndex)
-{
-	return this->gridSize[lengthIndex];
-}
 
-
-void Board::updateGrid(int slideDirection[2])
+void Board::updateGrid(bool slideDirection[2])
 {
 	if(slideDirection[0] != 0 || slideDirection[1] != 0){
 		this->slideTiles(slideDirection);
 		this->addRandomTile(2);
 	}
-	
 }
 
-void Board::generateGrid(int gridSize[2])
-{
-	this->grid.resize(gridSize[0] * gridSize[1]);
-	for (int i = 0; i < gridSize[0] * gridSize[1]; i++)
-	{
-		this->grid[i] = 0;
-	}
-	this->addRandomTile(2);
-}
 
 std::vector<int> Board::getFreeCells()
 {
@@ -69,40 +52,51 @@ void Board::addRandomTile(int amountOfTiles)
 	std::cout << std::endl;
 }
 
-void Board::slideTiles(int slideDirection[2])
+void Board::slideTiles(bool slideDirection[2])
 {
-	/*
-	bool slideDirection[2];
-	bool direction = slideDirection[0];					//right/down : direction = 0 ;		left/up : direction = 1
-	int cursorOffsetDirection = direction ? -1 : 1;		//right/down : direction = 1 ;		left/up : direction = -1
-	bool axis = slideDirection[1];						//left/right : axis = 0 ;			up/down : axis = 1
-	bool oppositeAxis = !axis;							//left/right : oppositeAxis = 1 ;	up/down : oppositeAxis = 0
-	*/
+	bool leftOrUpSlide = slideDirection[0];											//right/down : direction = 0			;	left/up : direction = 1
+	bool rightOrDownSlide = !leftOrUpSlide;										//right/down : oppositeDirection = 1	;	left/up : oppositeDirection = 0
+	int cursorOffsetDirection = leftOrUpSlide * -1 + rightOrDownSlide * 1;			//right/down : offset = 1				;	left/up : offset = -1
+	
+	bool axis = slideDirection[1];												//left/right : axis = 0					;	up/down : axis = 1
+	bool oppositeAxis = !axis;													//left/right : oppositeAxis = 1			;	up/down : oppositeAxis = 0
+	
+	int dimIndex[2]; //dimIndex[0] = row; dimIndex[1] = column			//axis = 0   : row = i ; col = j		;	axis = 1: row = j ; col = i 
+	int gridSize[2] = { this->grid.getSingleSize(WIDTH), this->grid.getSingleSize(HEIGHT) };
 
-	int direction = slideDirection[0];
-	int axis = slideDirection[1];
-	int oppositeAxis = 1 - axis;
-	int hasNegativeDirection = direction == -1 ? 1 : 0;
-	int dimensionsIndexes[2];
-
-	for (int i = 0; i < this->gridSize[axis]; i++) {
-		dimensionsIndexes[axis] = i; //if orientation = 1 (vertical slide), int i will be the column index in lines
-		for (int j = 1; j < this->gridSize[oppositeAxis]; j++) {
-			dimensionsIndexes[oppositeAxis] = (this->gridSize[oppositeAxis] - j - 1 ) * (1 - hasNegativeDirection) + j * hasNegativeDirection; //if direction is 
-			int cursor = dimensionsIndexes[0] * this->gridSize[0] + dimensionsIndexes[1];
-			int cursorRed = (dimensionsIndexes[0] + ( direction * axis)) * this->gridSize[0] + dimensionsIndexes[1] + (direction * oppositeAxis);
-			if (this->grid[cursor] != 0) {
-				if (this->grid[cursorRed] == 0) {
-					this->grid[cursorRed] = this->grid[cursor];
-					this->grid[cursor] = 0;
-				}
-				else if (this->grid[cursorRed] == this->grid[cursor]) {
-					this->grid[cursorRed] = this->grid[cursorRed] * 2;
-					this->grid[cursor] = 0;
-				}
+	for (int i = 0; i < gridSize[axis]; i++) {
+		dimIndex[axis] = i;	//define the index of the column or row to slide
+		for (int j = 1; j < gridSize[oppositeAxis]; j++) {
+			dimIndex[oppositeAxis] = (gridSize[oppositeAxis] - j - 1 ) * leftOrUpSlide + j * rightOrDownSlide;	//define the index of the column or row to slide
+			if (this->grid(dimIndex[0], dimIndex[1])->value != 0) {
+				while()
 			}
 		
 		}
 	}
 
 }
+
+/*while(this->grid[row * 4 + column].value != 0 && this->grid[row * 4 + column].stuck == 0)
+				{
+					if (virtualPose + 1 >= 4 * (row + 1)) {//if border
+						if (virtualPose != row * 4 + column) {(virtualPose != row * 4 + column) { 
+							this->grid[virtualPose].value = this->grid[row * 4 + column].value;
+							this->grid[row * 4 + column].value = 0;
+						}
+						this->grid[virtualPose].stuck = 1;
+					}
+					else if (this->grid[virtualPose + 1].value == 0) {
+						virtualPose ++;
+					}
+					else if (this->grid[virtualPose +1].value == this->grid[row * 4 + column].value && this->grid[virtualPose + 1].stuck != 2) {//fusion
+						this->grid[virtualPose + 1].value *= 2;
+						this->grid[row * 4 + column].value = 0;
+						this->grid[virtualPose + 1].stuck = 2;
+					}
+					else {
+							this->grid[virtualPose].value = this->grid[row * 4 + column].value;
+							this->grid[row * 4 + column].value = 0;
+						}
+						this->grid[virtualPose].stuck = 1;
+					}*/

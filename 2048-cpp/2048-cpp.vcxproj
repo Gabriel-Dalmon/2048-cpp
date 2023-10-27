@@ -23,7 +23,7 @@
     <ClCompile Include="src\engine\input\ConsoleInputManager.cpp" />
     <ClCompile Include="src\engine\rendering\ConsoleRenderer.cpp" />
     <ClCompile Include="src\gameplay\Board.cpp" />
-    <ClCompile Include="src\utils\Vector2D.cpp" />
+    <ClCompile Include="src\gameplay\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="data\globals.h" />
@@ -32,6 +32,8 @@
     <ClInclude Include="include\engine\ConsoleInputManager.h" />
     <ClInclude Include="include\engine\ConsoleRenderer.h" />
     <ClInclude Include="include\gamelogic\Board.h" />
+    <ClInclude Include="include\gamelogic\GameObject.h" />
+    <ClInclude Include="include\gamelogic\Tile.h" />
     <ClInclude Include="include\utils\Vector2D.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

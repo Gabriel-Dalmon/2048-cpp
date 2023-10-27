@@ -17,7 +17,7 @@ public:
         this->iSize[1] = height;
     };
 
-    int getVectorLength(GridDimension lengthIndex) {
+    int getSingleSize(GridDimension lengthIndex) {
         return this->iSize[lengthIndex];
     };
 
@@ -30,17 +30,15 @@ public:
         this->std::vector<T>::resize(width * height);
     };
 
-
-
     T& operator()(int row, int col) {
         return (*this)[row * this->iSize[0] + col];
     };
 
-    void setValue(int row, int col, T value) {
+    /*void setValue(int row, int col, T value) {
         (*this)[row * this->iSize[0] + col] = value;
     }
     ;
     T getValue(int row, int col) {
         return (*this)[row * this->iSize[0] + col];
-    };
+    };*/
 };
