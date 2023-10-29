@@ -138,18 +138,18 @@ void Board::slideTiles(bool leftOrUpSlide, bool axis)
 
 int Board::isGameOver()
 {
+	int gridWidth = this->grid.getSingleSize(WIDTH);
+	int gridHeight = this->grid.getSingleSize(HEIGHT);
 	if (!this->hasGridTileValue(0)) {
-		for (int row = 0; row < this->grid.getSingleSize(WIDTH); ++row) {
-			for (int column = 0; column < this->grid.getSingleSize(HEIGHT) - 1; ++column) {
-				std::cout << "Comparing Col" << row << "|" << column << " : " << this->grid(row, column)->value << " and " << this->grid(row, column + 1)->value << std::endl;
+		for (int row = 0; row < gridWidth; ++row) {
+			for (int column = 0; column < gridHeight - 1; ++column) {
 				if (this->grid(row, column)->value == this->grid(row, column + 1)->value) {
 					return 0;
 				}
 			}
 		}
-		for (int column = 0; column < this->grid.getSingleSize(HEIGHT); ++column) {
-			for (int row = 0; row < this->grid.getSingleSize(WIDTH) - 1; ++row) {
-				std::cout << "Comparing " << row << "|" << column << " : " << this->grid(row, column)->value << " and " << this->grid(row + 1, column)->value << std::endl;
+		for (int column = 0; column < gridHeight; ++column) {
+			for (int row = 0; row < gridWidth - 1; ++row) {
 				if (this->grid(row, column)->value == this->grid(row + 1, column)->value) {
 					return 0;
 				}
