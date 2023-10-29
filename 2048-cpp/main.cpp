@@ -7,51 +7,47 @@
 #include "include/engine/ConsoleRenderer.h"
 #include "include/engine/ConsoleInputManager.h"
 #include "include/utils/Vector2D.h"
+#include<windows.h>
 
 int main()
 {
-    srand(time(nullptr));
+    //srand(time(nullptr));
     ConsoleRenderer* renderer = new ConsoleRenderer();
     ConsoleInputManager* inputManager = new ConsoleInputManager();
     Board* board = new Board(4);
 
     int isPlaying = 1;
     int input;
-    int slideMovement[2];
-
-    Vector2D<int> vectTwoD(4);
+    bool slideMovement[2];
 
     while (isPlaying == 1) {
         renderer->render(board);
-
         input = _getch();
         switch (input) {
             case 72: // up
-			    slideMovement[0] = -1;
-			    slideMovement[1] = 1;
+			    slideMovement[0] = true;
+			    slideMovement[1] = true;
+                board->updateGrid(slideMovement);
 			    break;
             case 80: // down
-                slideMovement[0] = 1;
-                slideMovement[1] = 1;
+                slideMovement[0] = false;
+                slideMovement[1] = true;
+                board->updateGrid(slideMovement);
                 break;
             case 75: // left
-                slideMovement[0] = -1;
-                slideMovement[1] = 0;
+                slideMovement[0] = true;
+                slideMovement[1] = false;
+                board->updateGrid(slideMovement);
                 break;
             case 77: // right
-                slideMovement[0] = 1;
-				slideMovement[1] = 0;
+                slideMovement[0] = false;
+				slideMovement[1] = false;
+                board->updateGrid(slideMovement);
 				break;
-            default :
-                slideMovement[0] = 0;
-                slideMovement[1] = 0;
-                break;
         }
-        board->updateGrid(slideMovement);
-        slideMovement[0] = 0;
-        slideMovement[1] = 0;
+        isPlaying = !board->isGameOver();
     }
-    
+    std::cout << "Game Over" << std::endl;
 
     delete inputManager;
     delete board;

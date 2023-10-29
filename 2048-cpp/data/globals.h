@@ -1,6 +1,4 @@
 #pragma once
 
-enum GridDimension {
-	WIDTH = 0,
-	HEIGHT = 1
-};
+#define WIDTH 0
+#define HEIGHT 1
