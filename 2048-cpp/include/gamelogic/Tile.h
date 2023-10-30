@@ -17,6 +17,10 @@ public:
 	SDL_Surface* sprite;
 	TTF_Font* font;
 
+	void(*renderPointer)(SDLScreen* screen);
+
 	
 	void render(SDLScreen* screen);
+	//void render_empty(SDLScreen* screen);
+	//void render_smth(SDLScreen* screen);
 };
