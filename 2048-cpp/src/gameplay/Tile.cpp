@@ -17,25 +17,31 @@ Tile::Tile() : GameObject() {
 	this->rect->h = 40;
 	this->rect->w = 40;
 	this->font = TTF_OpenFont("src/assets/fonts/ttf-bitstream-vera-1.10/Vera.ttf", 16);
-	this->renderPointer = render_empty;
+	this->renderPointer = &Tile::render_empty;
+	this->renderArray[0] = &Tile::render_empty;
+	this->renderArray[1] = &Tile::render_smth;
 }
 
 Tile::~Tile() {}
 
 
 void Tile::render(SDLScreen* screen) {
-	this->renderPointer(screen);
+	(this->*renderPointer)(screen);
 }
 
-void render_empty(SDLScreen* screen){}
+void Tile::render_empty(SDLScreen* screen){}
 
 
-void render_smth(SDLScreen* screen, Tile* tile){
-	char numberstring[(((sizeof(tile->value)) * CHAR_BIT) + 2) / 3 + 2];
-	sprintf_s(numberstring, "%d", tile->value);
+void Tile::render_smth(SDLScreen* screen){
+	char numberstring[(((sizeof(this->value)) * CHAR_BIT) + 2) / 3 + 2];
+	sprintf_s(numberstring, "%d", this->value);
 
 	SDL_Color color = { 255, 255, 255, 0 };
-	SDL_Surface* message = TTF_RenderText_Blended(tile->font, numberstring, color);
-	SDL_BlitSurface(tile->sprite, NULL, screen->surface, tile->rect);
-	SDL_BlitSurface(message, NULL, screen->surface, tile->rect);
+	SDL_Surface* message = TTF_RenderText_Blended(this->font, numberstring, color);
+	SDL_BlitSurface(this->sprite, NULL, screen->surface, this->rect);
+	SDL_BlitSurface(message, NULL, screen->surface, this->rect);
+}
+
+void Tile::swap_render(int value) {//0 for render_empty and 1 for render_smth
+	this->renderPointer = this->renderArray[value];
 }

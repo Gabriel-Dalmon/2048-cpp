@@ -16,11 +16,15 @@ public:
 	bool mergedAlready;
 	SDL_Surface* sprite;
 	TTF_Font* font;
+	void(Tile::* renderArray[2])(SDLScreen*);
 
-	void(*renderPointer)(SDLScreen* screen);
+	void(Tile::*renderPointer)(SDLScreen* screen);
 
 	
 	void render(SDLScreen* screen);
-	//void render_empty(SDLScreen* screen);
-	//void render_smth(SDLScreen* screen);
+	void swap_render(int value);
+
+private:
+	void render_empty(SDLScreen* screen);
+	void render_smth(SDLScreen* screen);
 };

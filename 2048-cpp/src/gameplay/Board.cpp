@@ -106,6 +106,7 @@ void Board::addRandomTile(int amountOfTiles)
 			int randomFreeCellIndex = rand() % freeCells.size();
 			int randomValue = 2 + 2*( rand() % 2); // 2 or 4
 			this->grid[freeCells[randomFreeCellIndex]]->value = randomValue;
+			this->grid[freeCells[randomFreeCellIndex]]->swap_render(1);
 			freeCells.erase(freeCells.begin() + randomFreeCellIndex);
 		}
 		else {
@@ -123,7 +124,9 @@ void Board::mergeTiles(int currentTileCursor, int targetTileCursor) {
 	Tile* targetTile = this->grid[targetTileCursor];
 	currentTile->value += targetTile->value;
 	currentTile->mergedAlready = targetTile->value; //if merging with 0, mergedAlready remains false
+	currentTile->swap_render(1);
 	targetTile->value = 0;
+	targetTile->swap_render(0);
 	this->grid[targetTileCursor] = currentTile;
 	this->grid[currentTileCursor] = targetTile;
 }
@@ -174,8 +177,6 @@ void Board::slideTiles(bool leftOrUpSlide, bool axis)
 					slideTargetTile = this->grid[targetCursor];
 					if (slideTargetTile->value == 0 || (currentTile->value == slideTargetTile->value && !slideTargetTile->mergedAlready && !currentTile->mergedAlready)) {
 						this->mergeTiles(cursor, targetCursor);
-						/*this->grid[targetCursor]->rect->x = (row + rowSlideDirection * (slideOffset - 1));
-						currentTile->rect->y = (column + columnSlideDirection * (slideOffset - 1));*/
 					}
 					else {
 						slideOffset = gridSize[oppositeAxis];
