@@ -6,5 +6,5 @@ class AbstractInputManager
 public:
 	AbstractInputManager() {};
 	~AbstractInputManager() {};
-	virtual void manageInput(int* slideMovement) = 0;
+	virtual int manageInput() = 0;
 };

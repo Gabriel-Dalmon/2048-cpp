@@ -6,8 +6,8 @@
 
 Board::Board(int sideSize)
 {
-	this->position.x = 0;
-	this->position.y = 0;
+	this->rect->x = 0;
+	this->rect->y = 0;
 	this->gridSize[0] = sideSize;
 	this->gridSize[1] = sideSize;
 	this->generateGrid(gridSize);

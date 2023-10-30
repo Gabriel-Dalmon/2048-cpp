@@ -1,4 +1,7 @@
 #include <SDL.h>
+#include <SDL_image.h>
+#include <iostream>
+#include <SDL_ttf.h>
 
 #include "../../include/gamelogic/Tile.h"
 #include "../../include/engine/SDLRenderer.h"
@@ -7,15 +10,20 @@
 Tile::Tile() : GameObject() {
 	this->value = 0;
 	this->stuck = false;
-	this->sprite = IMG_Load("assets/tile.png");
+	this->sprite = IMG_Load("src/assets/tile.png");
+	this->rect->x = 0;
+	this->rect->y = 0;
+	this->rect->h = 40;
+	this->rect->w = 40;
+	this->font = TTF_OpenFont("fonts/ttf-bitstream-vera-1.10/Vera.ttf", 16);
 }
 
 Tile::~Tile() {}
 
 
 void Tile::render(SDLScreen* screen) {
-	SDL_Rect testRect;
-	testRect.x = 0; testRect.y = 0;
-	testRect.w = 40; testRect.h = 40;
-	SDL_BlitSurface(this->sprite, NULL, screen->surface, &testRect);
+	char charValue = char(this->value);
+	SDL_Color color = {255, 255, 255, 0};
+	SDL_Surface* message = TTF_RenderText_Blended(this->font, &charValue, color);
+	SDL_BlitSurface(this->sprite, NULL, screen->surface, this->rect);
 }

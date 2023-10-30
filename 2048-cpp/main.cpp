@@ -5,7 +5,9 @@
 #include <conio.h>
 #include "include/gamelogic/Board.h"
 #include "include/engine/SDLRenderer.h"
-#include "include/engine/ConsoleInputManager.h"
+#include "include/engine/SDLInputManager.h"
+#include <SDL_image.h>
+#include <SDL.h>
 
 
 int main(int argc, char* argv[1])
@@ -13,7 +15,7 @@ int main(int argc, char* argv[1])
     std::cout << "sgohzegohol" << std::endl;
     srand(time(nullptr));
     SDLRenderer* renderer = new SDLRenderer();
-    ConsoleInputManager* inputManager = new ConsoleInputManager();
+    SDLInputManager* inputManager = new SDLInputManager();
     Board* board = new Board(4);
 
     int isPlaying = 1;
@@ -23,7 +25,7 @@ int main(int argc, char* argv[1])
     while (isPlaying == 1) {
         renderer->render(board);
 
-        inputManager->manageInput(slideMovement);
+        slideMovement[0] = inputManager->manageInput();
         board->updateGrid(slideMovement);
         slideMovement[0] = 0;
         slideMovement[1] = 0;
@@ -31,7 +33,7 @@ int main(int argc, char* argv[1])
     }
     
 
-    delete inputManager;
+    //delete inputManager;
     delete board;
     delete renderer;
     
