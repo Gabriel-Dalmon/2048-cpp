@@ -5,7 +5,7 @@
 class SDLInputManager : public AbstractInputManager
 {
 public:
-	SDLInputManager() {};
-	~SDLInputManager() {};
+	SDLInputManager();
+	~SDLInputManager();
 	int manageInput();
 };

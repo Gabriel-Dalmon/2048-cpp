@@ -25,7 +25,7 @@ int main(int argc, char* argv[1])
     while (isPlaying == 1) {
         renderer->render(board);
 
-        slideMovement[0] = inputManager->manageInput();
+        //slideMovement[0] = inputManager->manageInput();
         board->updateGrid(slideMovement);
         slideMovement[0] = 0;
         slideMovement[1] = 0;

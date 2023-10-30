@@ -1,8 +1,16 @@
 #include <iostream>
 #include <conio.h>
+#include <SDL.h>
 
 #include "../../include/engine/SDLInputManager.h"
 #include "../../data/globals.h"
+
+
+SDLInputManager::SDLInputManager() {};
+
+
+SDLInputManager::~SDLInputManager() {};
+
 
 int SDLInputManager::manageInput()
 {
@@ -11,17 +19,13 @@ int SDLInputManager::manageInput()
         switch (event.type) {
         case SDLK_UP:
             return 1;
-            break;
         case SDLK_LEFT:
             return 2;
-            break;
         case SDLK_RIGHT:
             return 3;
-            break;
         case SDLK_DOWN:
             return 4;
-            break;
         }
     }
-    
+    return -1;
 }
