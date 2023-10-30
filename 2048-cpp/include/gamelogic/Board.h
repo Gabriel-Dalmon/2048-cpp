@@ -24,7 +24,7 @@ private:
 	void slideTilesRight();
 	void slideTilesUp();
 	void slideTilesDown();
-	void slideTiles(bool leftOrUpSlide, bool axis);
+	void slideTilesGeneric(bool leftOrUpSlide, bool axis);
 	void mergeTiles(int currentTileCursor, int targetTileCursor); //swap the tiles pointers in the board, the target tile value is added to the current tile value, the target tile value is set to 0, the moving tile is set to locked(can't be merged again)
 	void resetLockedTilesMergeStatus(bool isExpandDirection, bool axis);
 };

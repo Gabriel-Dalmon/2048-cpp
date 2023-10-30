@@ -16,34 +16,35 @@ void Board::update(int* inputs)
 	bool slideMovement[2];
 	switch (inputs[0]) {
 	case 72: // up
-		slideMovement[0] = true;
+		/*slideMovement[0] = true;
 		slideMovement[1] = true;
-		this->slideTiles(slideMovement[0], slideMovement[1]);
+		this->slideTilesGeneric(slideMovement[0], slideMovement[1]);*/
+		this->slideTilesUp();
 		this->addRandomTile(2);
 		break;
 	case 80: // down
-		slideMovement[0] = false;
+		/*slideMovement[0] = false;
 		slideMovement[1] = true;
-		this->slideTiles(slideMovement[0], slideMovement[1]);
+		this->slideTilesGeneric(slideMovement[0], slideMovement[1]);*/
+		this->slideTilesDown();
 		this->addRandomTile(2);
 		break;
 	case 75: // left
-		slideMovement[0] = true;
+		/*slideMovement[0] = true;
 		slideMovement[1] = false;
-		this->slideTiles(slideMovement[0], slideMovement[1]);
+		this->slideTilesGeneric(slideMovement[0], slideMovement[1]);*/
+		this->slideTilesLeft();
 		this->addRandomTile(2);
 		break;
 	case 77: // right
-		slideMovement[0] = false;
+		/*slideMovement[0] = false;
 		slideMovement[1] = false;
-		this->slideTiles(slideMovement[0], slideMovement[1]);
+		this->slideTilesGeneric(slideMovement[0], slideMovement[1]);*/
+		this->slideTilesRight();
 		this->addRandomTile(2);
 		break;
 	}
-
-
 }
-
 
 std::vector<int> Board::getFreeCells()
 {
@@ -112,21 +113,81 @@ void Board::mergeTiles(int currentTileCursor, int targetTileCursor) {
 }
 
 
-void Board::slideTilesLeft() {};
-void Board::slideTilesRight() {};
+void Board::slideTilesLeft() {
+	Tile* currentTile, * slideTargetTile;
+	int cursor, targetCursor, slideOffset;
+	const int gridWidth = this->grid.getSingleSize(WIDTH);
+
+	this->resetLockedTilesMergeStatus(0, 0);
+
+	for (int row = 0; row < gridWidth; row++) {
+		for (int column = 1; column <= this->grid.getSingleSize(HEIGHT) - 1; column++) {
+			cursor = row * gridWidth + column;
+			currentTile = this->grid(row, column);
+			currentTile->mergedAlready = false;
+			if (currentTile->value) {
+				slideOffset = 1;
+				while (slideOffset - 1 < column) {
+					targetCursor = row * gridWidth + (column - slideOffset);
+					slideTargetTile = this->grid[targetCursor];
+					if (slideTargetTile->value == 0 || (currentTile->value == slideTargetTile->value && !slideTargetTile->mergedAlready && !currentTile->mergedAlready)) {
+						this->mergeTiles(cursor, targetCursor);
+					}
+					else {
+						slideOffset = column;
+					}
+					cursor = targetCursor;
+					++slideOffset;
+				}
+			}
+		}
+	}
+};
+
+void Board::slideTilesRight() {
+	Tile* currentTile, * slideTargetTile;
+	int cursor, targetCursor, slideOffset;
+	const int gridWidth = this->grid.getSingleSize(WIDTH);
+	this->resetLockedTilesMergeStatus(1, 0);
+
+	for (int row = 0; row < gridWidth; row++) {
+		for (int column = this->grid.getSingleSize(HEIGHT) - 2; column >= 0; column--) {
+			cursor = row * gridWidth + column;
+			currentTile = this->grid(row, column);
+			currentTile->mergedAlready = false;
+			if (currentTile->value) {
+				slideOffset = 1;
+				while (slideOffset < gridWidth - column) {
+					targetCursor = row * gridWidth + (column + slideOffset);
+					slideTargetTile = this->grid[targetCursor];
+					if (slideTargetTile->value == 0 || (currentTile->value == slideTargetTile->value && !slideTargetTile->mergedAlready && !currentTile->mergedAlready)) {
+						this->mergeTiles(cursor, targetCursor);
+					}
+					else {
+						slideOffset = gridWidth;
+					}
+					cursor = targetCursor;
+					++slideOffset;
+				}
+			}
+		}
+	}
+};
 void Board::slideTilesUp() {
 	Tile *currentTile, *slideTargetTile;
 	int cursor, targetCursor, slideOffset;
 	const int gridWidth = this->grid.getSingleSize(WIDTH);
-	const int gridHeight = this->grid.getSingleSize(HEIGHT);
 
-	for (int column = 0; column < gridHeight; column++) {
+	this->resetLockedTilesMergeStatus(0, 1);
+
+	for (int column = 0; column < this->grid.getSingleSize(HEIGHT); column++) {
 		for (int row = 1; row <= gridWidth - 1; row++) {
 			cursor = row * gridWidth + column;
 			currentTile = this->grid(row, column);
+			currentTile->mergedAlready = false;
 			if (currentTile->value) {
 				slideOffset = 1;
-				while (slideOffset - 1 < gridWidth - (gridWidth - row)) {
+				while (slideOffset - 1 < row) {
 					targetCursor = (row - slideOffset) * gridWidth + column;
 					slideTargetTile = this->grid[targetCursor];
 					if (slideTargetTile->value == 0 || (currentTile->value == slideTargetTile->value && !slideTargetTile->mergedAlready && !currentTile->mergedAlready)) {
@@ -142,20 +203,22 @@ void Board::slideTilesUp() {
 		}
 	}
 };
+
 void Board::slideTilesDown() {
 	Tile* currentTile, * slideTargetTile;
 	int cursor, targetCursor, slideOffset;
 	const int gridWidth = this->grid.getSingleSize(WIDTH);
-	const int gridHeight = this->grid.getSingleSize(HEIGHT);
+	this->resetLockedTilesMergeStatus(1, 1);
 
-	for (int column = 0; column < gridHeight; column++) {
-		for (int row = 1; row <= gridWidth - 1; row++) {
+	for (int column = 0; column < this->grid.getSingleSize(HEIGHT); column++) {
+		for (int row = gridWidth - 2; row >= 0; row--) {
 			cursor = row * gridWidth + column;
 			currentTile = this->grid(row, column);
+			currentTile->mergedAlready = false;
 			if (currentTile->value) {
 				slideOffset = 1;
-				while (slideOffset - 1 < gridWidth - (gridWidth - row)) {
-					targetCursor = (row - slideOffset) * gridWidth + column;
+				while (slideOffset < gridWidth - row) {
+					targetCursor = (row + slideOffset) * gridWidth + column;
 					slideTargetTile = this->grid[targetCursor];
 					if (slideTargetTile->value == 0 || (currentTile->value == slideTargetTile->value && !slideTargetTile->mergedAlready && !currentTile->mergedAlready)) {
 						this->mergeTiles(cursor, targetCursor);
@@ -172,7 +235,7 @@ void Board::slideTilesDown() {
 };
 
 
-void Board::slideTiles(bool leftOrUpSlide, bool axis)
+void Board::slideTilesGeneric(bool leftOrUpSlide, bool axis) //axis : 1 = vertical slide, 0 = horizontal slide
 {
 	const bool rightOrDownSlide = !leftOrUpSlide;													//right/down : rightOrDownSlide = 1	;	left/up : rightOrDownSlide = 0
 	const int cursorOffsetDirection = leftOrUpSlide * -1 + rightOrDownSlide * 1;					//right/down : offset = 1				;	left/up : offset = -1
@@ -202,14 +265,16 @@ void Board::slideTiles(bool leftOrUpSlide, bool axis)
 
 			if (currentTile->value) {
 				slideOffset = 1;
-				while(slideOffset - 1 < gridSize[oppositeAxis] - (gridSize[oppositeAxis] - j)) {
+				while(slideOffset - 1 < j) {
 					targetCursor = (row + rowSlideDirection * (slideOffset)) * gridSize[0] + (column + columnSlideDirection * (slideOffset));
 					slideTargetTile = this->grid[targetCursor];
 					if (slideTargetTile->value == 0 || (currentTile->value == slideTargetTile->value && !slideTargetTile->mergedAlready && !currentTile->mergedAlready)) {
 						this->mergeTiles(cursor, targetCursor);
+						int x = (row + rowSlideDirection * (slideOffset));
+						int y = (column + columnSlideDirection * (slideOffset));
 					}
 					else {
-						slideOffset = gridSize[oppositeAxis];
+						slideOffset = j;
 					}
 					cursor = targetCursor;
 					++slideOffset;

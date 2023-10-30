@@ -7,7 +7,7 @@
 #include "include/engine/ConsoleRenderer.h"
 #include "include/engine/ConsoleInputManager.h"
 #include "include/utils/Vector2D.h"
-#include<windows.h>
+#include <windows.h>
 
 int main()
 {
@@ -18,7 +18,6 @@ int main()
 
     int isPlaying = 1;
     int* inputs = inputManager->inputs;
-    bool slideMovement[2];
 
     while (isPlaying == !board->isGameOver()) {
         renderer->render(board);
