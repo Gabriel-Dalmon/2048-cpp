@@ -39,11 +39,11 @@
     <ClCompile Include="src\engine\rendering\SDLRenderer.cpp">
       <Filter>Sources files</Filter>
     </ClCompile>
-    <ClCompile Include="include\engine\SDLInputManager.h">
-      <Filter>Sources files</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\input\SDLInputManager.cpp">
       <Filter>Sources files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\engine\SDLInputManager.h">
+      <Filter>Headers files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +69,9 @@
       <Filter>Headers files</Filter>
     </ClInclude>
     <ClInclude Include="include\engine\SDLRenderer.h">
+      <Filter>Headers files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\Vector2D.h">
       <Filter>Headers files</Filter>
     </ClInclude>
   </ItemGroup>

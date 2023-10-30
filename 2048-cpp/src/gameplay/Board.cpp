@@ -4,13 +4,14 @@
 #include "../../include/gamelogic/Board.h"
 #include "../../include/gamelogic/Tile.h"
 
-Board::Board(int sideSize)
+Board::Board(int sideSize): grid(sideSize)
 {
+	SDL_Rect rect;
+	this->rect = &rect;
 	this->rect->x = 0;
 	this->rect->y = 0;
-	this->gridSize[0] = sideSize;
-	this->gridSize[1] = sideSize;
-	this->generateGrid(gridSize);
+	this->generateGrid();
+	this->addRandomTile(2);
 }
 
 Board::~Board()
@@ -20,39 +21,64 @@ Board::~Board()
 
 void Board::render(SDLScreen* screen) 
 {
-	for (int i = 0; i < this->gridSize[0] * this->gridSize[1]; i++) {
+	for (int i = 0; i < this->grid.getSingleSize(0) * this->grid.getSingleSize(0); i++) {
 		this->grid[i]->render(screen);
 	}
 }
 
 int Board::getGridLength(GridDimension lengthIndex)
 {
-	return this->gridSize[lengthIndex];
+	return this->grid.getSingleSize(lengthIndex);
 }
 
 
-void Board::updateGrid(int slideDirection[2])
+void Board::updateGrid(int inputs[2])
 {
-	if(slideDirection[0] != 0 || slideDirection[1] != 0){
-		this->slideTiles(slideDirection);
-		this->addRandomTile(1);
+	bool slideMovement[2];
+	switch (inputs[0]) {
+	case 72: // up
+		slideMovement[0] = true;
+		slideMovement[1] = true;
+		this->slideTiles(slideMovement[0], slideMovement[1]);
+		this->addRandomTile(2);
+		break;
+	case 80: // down
+		slideMovement[0] = false;
+		slideMovement[1] = true;
+		this->slideTiles(slideMovement[0], slideMovement[1]);
+		this->addRandomTile(2);
+		break;
+	case 75: // left
+		slideMovement[0] = true;
+		slideMovement[1] = false;
+		this->slideTiles(slideMovement[0], slideMovement[1]);
+		this->addRandomTile(2);
+		break;
+	case 77: // right
+		slideMovement[0] = false;
+		slideMovement[1] = false;
+		this->slideTiles(slideMovement[0], slideMovement[1]);
+		this->addRandomTile(2);
+		break;
 	}
 	
 }
 
-void Board::generateGrid(int gridSize[2])
+void Board::generateGrid()
 {
-	this->grid.resize(gridSize[0] * gridSize[1]);
-	for (int i = 0; i < gridSize[0] * gridSize[1]; i++)
+	int j = 0;
+	for (int i = 0; i < this->grid.getSingleSize(WIDTH) * this->grid.getSingleSize(HEIGHT); i++)
 	{
 		this->grid[i] = new Tile;
+		j = i % 4;
+		this->grid[i]->rect->x = (i - j) * 10;
+		this->grid[i]->rect->y = j * 40;
 	}
-	this->addRandomTile(2);
 }
 
 void Board::deleteGrid()
 {
-	for (int i = 0; i < this->gridSize[0] * this->gridSize[1]; i++) {
+	for (int i = 0; i < this->grid.getSingleSize(0) * this->grid.getSingleSize(1); i++) {
 		delete this->grid[i];
 	}
 }
@@ -60,7 +86,7 @@ void Board::deleteGrid()
 std::vector<int> Board::getFreeCells()
 {
 	std::vector<int> freeCells;
-	for (int i = 0; i < this->gridSize[0] * this->gridSize[1]; i++)
+	for (int i = 0; i < this->grid.getSingleSize(0) * this->grid.getSingleSize(1); i++)
 	{
 		if (this->grid[i]->value == 0)
 		{
@@ -89,77 +115,76 @@ void Board::addRandomTile(int amountOfTiles)
 	std::cout << std::endl;
 }
 
-void Board::slideTiles(int slideDirection[2])
-{
-	int direction = slideDirection[0];
-	int axis = slideDirection[1];
-	int oppositeAxis = 1 - axis;
-	int hasNegativeDirection = direction == -1 ? 1 : 0;
 
-	int dimensionsIndexes[2];
-	for (int i = 0; i < this->gridSize[axis]; i++) {
-		dimensionsIndexes[axis] = i; //if orientation = 1 (vertical slide), int i will be the column index in lines
-		for (int j = 1; j < this->gridSize[oppositeAxis]; j++) {
-			dimensionsIndexes[oppositeAxis] = (this->gridSize[oppositeAxis] - j - 1 ) * (1 - hasNegativeDirection) + j * hasNegativeDirection; //if direction is 
-			int cursor = dimensionsIndexes[0] * this->gridSize[0] + dimensionsIndexes[1];
-			int cursorRed = (dimensionsIndexes[0] + ( direction * axis)) * this->gridSize[0] + dimensionsIndexes[1] + (direction * oppositeAxis);
-			if (this->grid[cursor]->value != 0) {
-				//while (this->grid[cursor].value != 0 && this->grid[cursor].stuck == 0)
-				{
-					if (this->grid[cursorRed]->value == 0) {
-						this->grid[cursorRed]->value = this->grid[cursor]->value;
-						this->grid[cursor]->value = 0;
-					}
-					else if (this->grid[cursorRed]->value == this->grid[cursor]->value) {
-						this->grid[cursorRed]->value = this->grid[cursorRed]->value * 2;
-						this->grid[cursor]->value = 0;
-					}
-				}
-			}
-		
-		}
-	}
 
+
+void Board::mergeTiles(int currentTileCursor, int targetTileCursor) {
+	Tile* currentTile = this->grid[currentTileCursor];
+	Tile* targetTile = this->grid[targetTileCursor];
+	currentTile->value += targetTile->value;
+	currentTile->mergedAlready = targetTile->value; //if merging with 0, mergedAlready remains false
+	targetTile->value = 0;
+	this->grid[targetTileCursor] = currentTile;
+	this->grid[currentTileCursor] = targetTile;
 }
 
-/*
-void Board::slideTiles(int slideDirection[2])
+
+void Board::resetLockedTilesMergeStatus(bool isExpandDirection, bool axis) {
+	int dimensionsIndex[2];
+	for (int i = 0; i < this->grid.getSingleSize(axis); i++) {
+		dimensionsIndex[axis] = i; //decides if i is row or column
+		dimensionsIndex[!axis] = (this->grid.getSingleSize(!axis) - 1) * isExpandDirection;
+		this->grid(dimensionsIndex[0], dimensionsIndex[1])->mergedAlready = false;
+	}
+}
+
+
+void Board::slideTiles(bool leftOrUpSlide, bool axis)
 {
-	int virtualPose = 0;
-	for (int row = 0; row < 4; row++) {
-		for (int column = 3; column >= 0; column--) {
-			if (this->grid[row * 4 + column].value != 0) {
-				virtualPose = row * 4 + column;
-				while(this->grid[row * 4 + column].value != 0 && this->grid[row * 4 + column].stuck == 0)
-				{
-					if (virtualPose + 1 >= 4 * (row + 1)) {//if border
-						if (virtualPose != row * 4 + column) {(virtualPose != row * 4 + column) { 
-							this->grid[virtualPose].value = this->grid[row * 4 + column].value;
-							this->grid[row * 4 + column].value = 0;
-						}
-						this->grid[virtualPose].stuck = 1;
-					}
-					else if (this->grid[virtualPose + 1].value == 0) {
-						virtualPose ++;
-					}
-					else if (this->grid[virtualPose +1].value == this->grid[row * 4 + column].value && this->grid[virtualPose + 1].stuck != 2) {//fusion
-						this->grid[virtualPose + 1].value *= 2;
-						this->grid[row * 4 + column].value = 0;
-						this->grid[virtualPose + 1].stuck = 2;
+	const bool rightOrDownSlide = !leftOrUpSlide;													//right/down : rightOrDownSlide = 1	;	left/up : rightOrDownSlide = 0
+	const int cursorOffsetDirection = leftOrUpSlide * -1 + rightOrDownSlide * 1;					//right/down : offset = 1				;	left/up : offset = -1
+
+	const bool oppositeAxis = !axis;																//left/right : oppositeAxis = 1			;	up/down : oppositeAxis = 0
+	int row, column, * dimensionsIndex[2] = { &row, &column };										//left/right : dimIndex[0] = row; dimIndex[1] = column		;	up/down : dimIndex[0] = column; dimIndex[1] = row
+
+	const int rowSlideDirection = cursorOffsetDirection * axis;
+	const int columnSlideDirection = cursorOffsetDirection * oppositeAxis;
+
+	const int gridSize[2] = { this->grid.getSingleSize(WIDTH), this->grid.getSingleSize(HEIGHT) };
+	int slideOffset, cursor, targetCursor;
+	Tile* currentTile, * slideTargetTile;
+
+	this->resetLockedTilesMergeStatus(rightOrDownSlide, axis);
+
+	//move tiles
+	for (int i = 0; i < gridSize[axis]; i++) {
+		*dimensionsIndex[axis] = i; //decides if i is row or column
+		for (int j = 1; j < gridSize[oppositeAxis]; j++) {
+			*dimensionsIndex[oppositeAxis] = (gridSize[oppositeAxis] - j - 1) * rightOrDownSlide + j * leftOrUpSlide; //decides if j is row or column and if it should be reverted
+
+			cursor = row * gridSize[0] + column;
+
+			currentTile = this->grid[cursor];
+			currentTile->mergedAlready = false;
+
+			if (currentTile->value) {
+				slideOffset = 1;
+				while (slideOffset - 1 < gridSize[oppositeAxis] - (gridSize[oppositeAxis] - j)) {
+					targetCursor = (row + rowSlideDirection * (slideOffset)) * gridSize[0] + (column + columnSlideDirection * (slideOffset));
+					slideTargetTile = this->grid[targetCursor];
+					if (slideTargetTile->value == 0 || (currentTile->value == slideTargetTile->value && !slideTargetTile->mergedAlready && !currentTile->mergedAlready)) {
+						this->mergeTiles(cursor, targetCursor);
+						/*this->grid[targetCursor]->rect->x = (row + rowSlideDirection * (slideOffset - 1));
+						currentTile->rect->y = (column + columnSlideDirection * (slideOffset - 1));*/
 					}
 					else {
-							this->grid[virtualPose].value = this->grid[row * 4 + column].value;
-							this->grid[row * 4 + column].value = 0;
-						}
-						this->grid[virtualPose].stuck = 1;
+						slideOffset = gridSize[oppositeAxis];
 					}
+					cursor = targetCursor;
+					++slideOffset;
 				}
 			}
 		}
 	}
-	for (int row = 0; row < 4; row++) {
-		for (int column = 3; column >= 0; column--) {
-			this->grid[row * 4 + column].stuck = 0;
-		}
-	}
-}*/
+}
+

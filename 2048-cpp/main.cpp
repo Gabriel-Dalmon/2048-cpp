@@ -12,7 +12,6 @@
 
 int main(int argc, char* argv[1])
 {
-    std::cout << "sgohzegohol" << std::endl;
     srand(time(nullptr));
     SDLRenderer* renderer = new SDLRenderer();
     SDLInputManager* inputManager = new SDLInputManager();
@@ -25,7 +24,7 @@ int main(int argc, char* argv[1])
     while (isPlaying == 1) {
         renderer->render(board);
 
-        //slideMovement[0] = inputManager->manageInput();
+        slideMovement[0] = inputManager->manageInput();
         board->updateGrid(slideMovement);
         slideMovement[0] = 0;
         slideMovement[1] = 0;
@@ -33,7 +32,7 @@ int main(int argc, char* argv[1])
     }
     
 
-    //delete inputManager;
+    delete inputManager;
     delete board;
     delete renderer;
     

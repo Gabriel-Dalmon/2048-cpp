@@ -13,7 +13,7 @@ public:
 	~Tile();
 
 	int value;
-	bool stuck;
+	bool mergedAlready;
 	SDL_Surface* sprite;
 	TTF_Font* font;
 
