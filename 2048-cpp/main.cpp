@@ -47,6 +47,7 @@ int main()
         }
         isPlaying = !board->isGameOver();
     }
+    renderer->render(board);
     std::cout << "Game Over" << std::endl;
 
     delete inputManager;

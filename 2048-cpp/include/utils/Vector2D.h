@@ -11,8 +11,6 @@ private:
 	int sizes[2];
 
 public:
-    
-    
     Vector2D(int size) : std::vector<T>(size * size) {
         this->sizes[0] = size;
         this->sizes[1] = size;

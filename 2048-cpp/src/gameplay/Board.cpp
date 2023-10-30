@@ -51,7 +51,6 @@ void Board::generateGrid()
 
 void Board::addRandomTile(int amountOfTiles)
 {
-	
 	std::vector<int> freeCells = this->getFreeCells();
 	for (int i = 0; i < amountOfTiles; i++) 
 	{
@@ -86,6 +85,67 @@ void Board::mergeTiles(int currentTileCursor, int targetTileCursor) {
 	this->grid[currentTileCursor] = targetTile;
 }
 
+
+void Board::slideTilesLeft() {};
+void Board::slideTilesRight() {};
+void Board::slideTilesUp() {
+	Tile *currentTile, *slideTargetTile;
+	int cursor, targetCursor, slideOffset;
+	const int gridWidth = this->grid.getSingleSize(WIDTH);
+	const int gridHeight = this->grid.getSingleSize(HEIGHT);
+
+	for (int column = 0; column < gridHeight; column++) {
+		for (int row = 1; row <= gridWidth - 1; row++) {
+			cursor = row * gridWidth + column;
+			currentTile = this->grid(row, column);
+			if (currentTile->value) {
+				slideOffset = 1;
+				while (slideOffset - 1 < gridWidth - (gridWidth - row)) {
+					targetCursor = (row - slideOffset) * gridWidth + column;
+					slideTargetTile = this->grid[targetCursor];
+					if (slideTargetTile->value == 0 || (currentTile->value == slideTargetTile->value && !slideTargetTile->mergedAlready && !currentTile->mergedAlready)) {
+						this->mergeTiles(cursor, targetCursor);
+					}
+					else {
+						slideOffset = gridWidth;
+					}
+					cursor = targetCursor;
+					++slideOffset;
+				}
+			}
+		}
+	}
+};
+void Board::slideTilesDown() {
+	Tile* currentTile, * slideTargetTile;
+	int cursor, targetCursor, slideOffset;
+	const int gridWidth = this->grid.getSingleSize(WIDTH);
+	const int gridHeight = this->grid.getSingleSize(HEIGHT);
+
+	for (int column = 0; column < gridHeight; column++) {
+		for (int row = 1; row <= gridWidth - 1; row++) {
+			cursor = row * gridWidth + column;
+			currentTile = this->grid(row, column);
+			if (currentTile->value) {
+				slideOffset = 1;
+				while (slideOffset - 1 < gridWidth - (gridWidth - row)) {
+					targetCursor = (row - slideOffset) * gridWidth + column;
+					slideTargetTile = this->grid[targetCursor];
+					if (slideTargetTile->value == 0 || (currentTile->value == slideTargetTile->value && !slideTargetTile->mergedAlready && !currentTile->mergedAlready)) {
+						this->mergeTiles(cursor, targetCursor);
+					}
+					else {
+						slideOffset = gridWidth;
+					}
+					cursor = targetCursor;
+					++slideOffset;
+				}
+			}
+		}
+	}
+};
+
+
 void Board::slideTiles(bool leftOrUpSlide, bool axis)
 {
 	const bool rightOrDownSlide = !leftOrUpSlide;													//right/down : rightOrDownSlide = 1	;	left/up : rightOrDownSlide = 0
@@ -108,32 +168,29 @@ void Board::slideTiles(bool leftOrUpSlide, bool axis)
 		*dimensionsIndex[axis] = i; //decides if i is row or column
 		for (int j = 1; j < gridSize[oppositeAxis]; j++) {
 			*dimensionsIndex[oppositeAxis] = (gridSize[oppositeAxis] - j - 1 ) * rightOrDownSlide + j * leftOrUpSlide; //decides if j is row or column and if it should be reverted
-			slideOffset = 0;
-			cursor = (row + rowSlideDirection * slideOffset) * gridSize[0] + (column + columnSlideDirection * slideOffset);
+			
+			cursor = row * gridSize[0] + column;
 			
 			currentTile = this->grid[cursor];
 			currentTile->mergedAlready = false;
 
 			if (currentTile->value) {
-				++slideOffset;
-				targetCursor = (row + rowSlideDirection * (slideOffset)) * gridSize[0] + (column + columnSlideDirection * (slideOffset));
-				
+				slideOffset = 1;
 				while(slideOffset - 1 < gridSize[oppositeAxis] - (gridSize[oppositeAxis] - j)) {
+					targetCursor = (row + rowSlideDirection * (slideOffset)) * gridSize[0] + (column + columnSlideDirection * (slideOffset));
 					slideTargetTile = this->grid[targetCursor];
 					if (slideTargetTile->value == 0 || (currentTile->value == slideTargetTile->value && !slideTargetTile->mergedAlready && !currentTile->mergedAlready)) {
 						this->mergeTiles(cursor, targetCursor);
 					}
 					else {
-						slideOffset = gridSize[oppositeAxis] + 9;
+						slideOffset = gridSize[oppositeAxis];
 					}
 					cursor = targetCursor;
 					++slideOffset;
-					targetCursor = (row + rowSlideDirection * slideOffset) * gridSize[0] + (column + columnSlideDirection * slideOffset);
 				}				  
 			}
 		}
 	}
-
 }
 
 int Board::isGameOver()
