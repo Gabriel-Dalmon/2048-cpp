@@ -17,38 +17,22 @@ int main()
     Board* board = new Board(4);
 
     int isPlaying = 1;
-    int input;
+    int* inputs = inputManager->inputs;
     bool slideMovement[2];
 
-    while (isPlaying == 1) {
+    while (isPlaying == !board->isGameOver()) {
         renderer->render(board);
-        input = _getch();
-        switch (input) {
-            case 72: // up
-			    slideMovement[0] = true;
-			    slideMovement[1] = true;
-                board->updateGrid(slideMovement);
-			    break;
-            case 80: // down
-                slideMovement[0] = false;
-                slideMovement[1] = true;
-                board->updateGrid(slideMovement);
-                break;
-            case 75: // left
-                slideMovement[0] = true;
-                slideMovement[1] = false;
-                board->updateGrid(slideMovement);
-                break;
-            case 77: // right
-                slideMovement[0] = false;
-				slideMovement[1] = false;
-                board->updateGrid(slideMovement);
-				break;
-        }
-        isPlaying = !board->isGameOver();
+        inputManager->update();
+        board->update(inputs);
     }
     renderer->render(board);
     std::cout << "Game Over" << std::endl;
+    if (board->isGameOver() == 2) {
+        std::cout << "You Won" << std::endl;
+    }
+    else {
+        std::cout << "You Lost" << std::endl;
+    }
 
     delete inputManager;
     delete board;

@@ -4,7 +4,8 @@
 class AbstractInputManager
 {
 public:
+	int inputs[4] = {0,0,0,0};
 	AbstractInputManager() {};
 	~AbstractInputManager() {};
-	virtual int manageInput() = 0;
+	virtual void update() = 0;
 };

@@ -12,7 +12,7 @@ public:
 	Board(int sideSize);
 	~Board();
 
-	void updateGrid(bool slideDirection[2]);
+	void update(int* inputs);
 	int isGameOver(); //returns 0 if game is not over, 1 if game is over and lost, 2 if game is over and won
 
 private:

@@ -5,7 +5,8 @@
 class ConsoleInputManager : public AbstractInputManager
 {
 public:
-	ConsoleInputManager() {};
-	~ConsoleInputManager() {};
-	int manageInput();
+	int inputs[4] = { 0,0,0,0 };
+	ConsoleInputManager();
+	~ConsoleInputManager();
+	void update();
 };

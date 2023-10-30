@@ -11,10 +11,36 @@ Board::~Board()
 {}
 
 
-void Board::updateGrid(bool slideDirection[2])
-{
-	this->slideTiles(slideDirection[0], slideDirection[1]);
-	this->addRandomTile(2);
+void Board::update(int* inputs)
+{	
+	bool slideMovement[2];
+	switch (inputs[0]) {
+	case 72: // up
+		slideMovement[0] = true;
+		slideMovement[1] = true;
+		this->slideTiles(slideMovement[0], slideMovement[1]);
+		this->addRandomTile(2);
+		break;
+	case 80: // down
+		slideMovement[0] = false;
+		slideMovement[1] = true;
+		this->slideTiles(slideMovement[0], slideMovement[1]);
+		this->addRandomTile(2);
+		break;
+	case 75: // left
+		slideMovement[0] = true;
+		slideMovement[1] = false;
+		this->slideTiles(slideMovement[0], slideMovement[1]);
+		this->addRandomTile(2);
+		break;
+	case 77: // right
+		slideMovement[0] = false;
+		slideMovement[1] = false;
+		this->slideTiles(slideMovement[0], slideMovement[1]);
+		this->addRandomTile(2);
+		break;
+	}
+
 
 }
 
