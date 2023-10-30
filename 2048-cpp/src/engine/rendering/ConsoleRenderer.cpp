@@ -7,8 +7,8 @@
 #include "../../data/globals.h"
 
 std::map<int, std::string> tilesColors {
-	{0, "37"},
-	{2, "96"},
+	{ 0, "37" },
+	{ 2, "96" },
 	{ 4, "31" },
 	{ 8, "32" },
 	{ 16, "33" },

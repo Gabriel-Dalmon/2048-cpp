@@ -1,40 +1,44 @@
-// 2048.cpp : Ce fichier contient la fonction 'main'. L'exécution du programme commence et se termine à cet endroit.
+// 2048.cpp : Entrypoint
 //
 
 #include <iostream>
-#include <conio.h>
 #include "include/gamelogic/Board.h"
 #include "include/engine/ConsoleRenderer.h"
 #include "include/engine/ConsoleInputManager.h"
-#include "include/utils/Vector2D.h"
-#include <windows.h>
 
 int main()
 {
-    //srand(time(nullptr));
+    srand(time(nullptr));
     ConsoleRenderer* renderer = new ConsoleRenderer();
     ConsoleInputManager* inputManager = new ConsoleInputManager();
-    Board* board = new Board(4);
-
-    int isPlaying = 1;
     int* inputs = inputManager->inputs;
+    int gridSize = 0;
 
-    while (isPlaying == !board->isGameOver()) {
+    std::cout << "Enter the grid size, (ex: 4 = 4x4 Grid): ";
+    while (gridSize < 2 || gridSize > 100) {
+        std::cin >> gridSize;
+        std::cin.clear();
+        std::cin.ignore(100, '\n');
+        std::cout << "Invalid gridSize entered, enter an integer smaller than 100 and larger than 1" << std::endl;
+    }
+    Board* board = new Board(gridSize);
+    
+    while (!board->isGameOver()) {
         renderer->render(board);
         inputManager->update();
         board->update(inputs);
     }
+
     renderer->render(board);
-    std::cout << "Game Over" << std::endl;
+    std::cout << "           Game Over" << std::endl;
     if (board->isGameOver() == 2) {
-        std::cout << "You Won" << std::endl;
+        std::cout << "           \033[34mYou Won\033[0m" << std::endl;
     }
     else {
-        std::cout << "You Lost" << std::endl;
+        std::cout << "           \033[31mYou Lost\033[0m" << std::endl;
     }
 
     delete inputManager;
     delete board;
     delete renderer;
-    
 }

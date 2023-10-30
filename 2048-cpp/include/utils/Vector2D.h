@@ -11,34 +11,34 @@ private:
 	int sizes[2];
 
 public:
-    Vector2D(int size) : std::vector<T>(size * size) {
+    inline Vector2D(int size) : std::vector<T>(size * size) {
         this->sizes[0] = size;
         this->sizes[1] = size;
     };
 
-    Vector2D(int width, int height) : std::vector<T>(width* height) {
+    inline Vector2D(int width, int height) : std::vector<T>(width* height) {
         this->sizes[0] = width;
         this->sizes[1] = height;
     };
 
-    int calculateCursor(int row, int col) {
+    inline int calculateCursor(int row, int col) {
 		return row * this->sizes[0] + col;
 	};
 
-    int getSingleSize(int lengthIndex) {
+    inline int getSingleSize(int lengthIndex) {
         return this->sizes[lengthIndex];
     };
 
-    void resize(int size) {
+    inline void resize(int size) {
         this->resize(size, size);
     };
-    void resize(int width, int height) {
+    inline void resize(int width, int height) {
         this->sizes[0] = width;
         this->sizes[1] = height;
         this->std::vector<T>::resize(width * height);
     };
 
-    T& operator()(int row, int col) {
+    inline T& operator()(int row, int col) {
         return (*this)[row * this->sizes[0] + col];
     };
 

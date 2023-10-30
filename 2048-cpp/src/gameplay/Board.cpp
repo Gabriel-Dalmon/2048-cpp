@@ -1,4 +1,3 @@
-#include <iostream>
 #include "../../include/gamelogic/Board.h"
 
 Board::Board(int sideSize): grid(sideSize)
@@ -8,8 +7,12 @@ Board::Board(int sideSize): grid(sideSize)
 }
 
 Board::~Board()
-{}
-
+{
+	for (int i = 0; i < this->grid.size(); i++)
+	{
+		delete this->grid[i];
+	}
+}
 
 void Board::update(int* inputs)
 {	
@@ -305,6 +308,5 @@ int Board::isGameOver()
 		}
 		return 1;
 	}
-
 	return this->hasGridTileValue(2048)*2;
 }
