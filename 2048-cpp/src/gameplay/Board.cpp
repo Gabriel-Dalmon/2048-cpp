@@ -32,36 +32,36 @@ int Board::getGridLength(GridDimension lengthIndex)
 }
 
 
-void Board::updateGrid(int inputs[2])
+void Board::update(int inputs[4])
 {
-	bool slideMovement[2];
+	bool leftOrUpSlide, axis;
 	switch (inputs[0]) {
 	case 72: // up
-		slideMovement[0] = true;
-		slideMovement[1] = true;
-		this->slideTiles(slideMovement[0], slideMovement[1]);
+		leftOrUpSlide = true;
+		axis = true;
+		this->slideTilesGeneric(leftOrUpSlide, axis);
 		this->addRandomTile(2);
 		break;
 	case 80: // down
-		slideMovement[0] = false;
-		slideMovement[1] = true;
-		this->slideTiles(slideMovement[0], slideMovement[1]);
+		leftOrUpSlide = false;
+		axis = true;
+		this->slideTilesGeneric(leftOrUpSlide, axis);
 		this->addRandomTile(2);
 		break;
-	case 75: // left
-		slideMovement[0] = true;
-		slideMovement[1] = false;
-		this->slideTiles(slideMovement[0], slideMovement[1]);
+	case 75: // leftaxis
+		leftOrUpSlide = true;
+		axis = false;
+		this->slideTilesGeneric(leftOrUpSlide, axis);
 		this->addRandomTile(2);
 		break;
 	case 77: // right
-		slideMovement[0] = false;
-		slideMovement[1] = false;
-		this->slideTiles(slideMovement[0], slideMovement[1]);
+		leftOrUpSlide = false;
+		axis = false;
+		this->slideTilesGeneric(leftOrUpSlide, axis);
 		this->addRandomTile(2);
 		break;
 	}
-	
+	//inputs[0] = 0;
 }
 
 void Board::generateGrid()
@@ -71,8 +71,8 @@ void Board::generateGrid()
 	{
 		this->grid[i] = new Tile;
 		j = i % 4;
-		this->grid[i]->rect->x = (i - j) * 10;
-		this->grid[i]->rect->y = j * 40;
+		this->grid[i]->rect->x =  j * 40;
+		this->grid[i]->rect->y = (i - j) * 10;
 	}
 }
 
@@ -113,7 +113,6 @@ void Board::addRandomTile(int amountOfTiles)
 			break;
 		}
 	}
-	std::cout << std::endl;
 }
 
 
@@ -122,6 +121,12 @@ void Board::addRandomTile(int amountOfTiles)
 void Board::mergeTiles(int currentTileCursor, int targetTileCursor) {
 	Tile* currentTile = this->grid[currentTileCursor];
 	Tile* targetTile = this->grid[targetTileCursor];
+	int tmpX = targetTile->rect->x;
+	int tmpY = targetTile->rect->y;
+	targetTile->rect->x = currentTile->rect->x;
+	targetTile->rect->y = currentTile->rect->y;
+	currentTile->rect->x = tmpX;
+	currentTile->rect->y = tmpY;
 	currentTile->value += targetTile->value;
 	currentTile->mergedAlready = targetTile->value; //if merging with 0, mergedAlready remains false
 	currentTile->swap_render(1);
@@ -142,7 +147,7 @@ void Board::resetLockedTilesMergeStatus(bool isExpandDirection, bool axis) {
 }
 
 
-void Board::slideTiles(bool leftOrUpSlide, bool axis)
+void Board::slideTilesGeneric(bool leftOrUpSlide, bool axis) //axis : 1 = vertical slide, 0 = horizontal slide
 {
 	const bool rightOrDownSlide = !leftOrUpSlide;													//right/down : rightOrDownSlide = 1	;	left/up : rightOrDownSlide = 0
 	const int cursorOffsetDirection = leftOrUpSlide * -1 + rightOrDownSlide * 1;					//right/down : offset = 1				;	left/up : offset = -1
@@ -172,14 +177,16 @@ void Board::slideTiles(bool leftOrUpSlide, bool axis)
 
 			if (currentTile->value) {
 				slideOffset = 1;
-				while (slideOffset - 1 < gridSize[oppositeAxis] - (gridSize[oppositeAxis] - j)) {
+				while (slideOffset - 1 < j) {
 					targetCursor = (row + rowSlideDirection * (slideOffset)) * gridSize[0] + (column + columnSlideDirection * (slideOffset));
 					slideTargetTile = this->grid[targetCursor];
 					if (slideTargetTile->value == 0 || (currentTile->value == slideTargetTile->value && !slideTargetTile->mergedAlready && !currentTile->mergedAlready)) {
 						this->mergeTiles(cursor, targetCursor);
+						int x = (row + rowSlideDirection * (slideOffset));
+						int y = (column + columnSlideDirection * (slideOffset));
 					}
 					else {
-						slideOffset = gridSize[oppositeAxis];
+						slideOffset = j;
 					}
 					cursor = targetCursor;
 					++slideOffset;

@@ -12,20 +12,27 @@ SDLInputManager::SDLInputManager() {};
 SDLInputManager::~SDLInputManager() {};
 
 
-int SDLInputManager::manageInput()
+void SDLInputManager::update()
 {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
-        case SDLK_UP:
-            return 1;
-        case SDLK_LEFT:
-            return 2;
-        case SDLK_RIGHT:
-            return 3;
-        case SDLK_DOWN:
-            return 4;
-        }
+            case SDL_KEYDOWN:
+                std::cout << "Key : " << event.key.keysym.sym << std::endl;
+                switch (event.key.keysym.sym) {
+                    case SDLK_UP:
+                        this->inputs[0] = 72;
+                        break;
+                    case SDLK_DOWN:
+                        this->inputs[0] = 80;
+                        break;
+                    case SDLK_LEFT:
+                        this->inputs[0] = 75;
+                        break;
+                    case SDLK_RIGHT:
+                        this->inputs[0] = 77;
+                        break;
+                }
+            }
     }
-    return -1;
 }

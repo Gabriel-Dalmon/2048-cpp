@@ -6,5 +6,6 @@ class AbstractInputManager
 public:
 	AbstractInputManager() {};
 	~AbstractInputManager() {};
-	virtual int manageInput() = 0;
+	virtual void update() = 0;
 };
+
