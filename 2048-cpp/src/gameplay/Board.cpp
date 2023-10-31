@@ -291,7 +291,9 @@ int Board::isGameOver()
 {
 	int gridWidth = this->grid.getSingleSize(WIDTH);
 	int gridHeight = this->grid.getSingleSize(HEIGHT);
-	if (!this->hasGridTileValue(0)) {
+	int isGameOver = this->hasGridTileValue(2048);
+
+	if (!this->hasGridTileValue(0) && !isGameOver) {
 		for (int row = 0; row < gridWidth; ++row) {
 			for (int column = 0; column < gridHeight - 1; ++column) {
 				if (this->grid(row, column)->value == this->grid(row, column + 1)->value) {
@@ -308,5 +310,5 @@ int Board::isGameOver()
 		}
 		return 1;
 	}
-	return this->hasGridTileValue(2048)*2;
+	return isGameOver *2;
 }
