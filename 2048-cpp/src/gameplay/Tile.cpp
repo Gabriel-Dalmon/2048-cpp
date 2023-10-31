@@ -22,7 +22,9 @@ Tile::Tile() : GameObject() {
 	this->renderArray[1] = &Tile::render_smth;
 }
 
-Tile::~Tile() {}
+Tile::~Tile() {
+	delete this->rect;
+}
 
 
 void Tile::render(SDLScreen* screen) {

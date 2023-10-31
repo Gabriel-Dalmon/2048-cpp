@@ -16,7 +16,7 @@ int SDLInputManager::manageInput()
 {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
-        switch (event.type) {
+        switch (event.key.keysym.scancode) {
         case SDLK_UP:
             return 1;
         case SDLK_LEFT:
