@@ -6,20 +6,23 @@
 #include "../../include/gamelogic/Tile.h"
 #include "../../include/engine/SDLRenderer.h"
 
+SDL_Surface* Tile::sprite = IMG_Load("src/assets/tile.png");
+TTF_Font* Tile::font = TTF_OpenFont("src/assets/fonts/ttf-bitstream-vera-1.10/Vera.ttf", 16);
+
+
 
 Tile::Tile() : GameObject() {
 	this->value = 0;
 	this->mergedAlready = false;
-	this->sprite = IMG_Load("src/assets/tile.png");
 	this->rect = new SDL_Rect;
 	this->rect->x = 0;
 	this->rect->y = 0;
 	this->rect->h = 40;
 	this->rect->w = 40;
-	this->font = TTF_OpenFont("src/assets/fonts/ttf-bitstream-vera-1.10/Vera.ttf", 16);
 	this->renderPointer = &Tile::render_empty;
 	this->renderArray[0] = &Tile::render_empty;
 	this->renderArray[1] = &Tile::render_smth;
+	//this->font = TTF_OpenFont("src/assets/fonts/ttf-bitstream-vera-1.10/Vera.ttf", 16);
 }
 
 Tile::~Tile() {

@@ -40,25 +40,25 @@ void Board::update(int inputs[4])
 		leftOrUpSlide = true;
 		axis = true;
 		this->slideTilesGeneric(leftOrUpSlide, axis);
-		this->addRandomTile(2);
+		this->addRandomTile(1);
 		break;
 	case 80: // down
 		leftOrUpSlide = false;
 		axis = true;
 		this->slideTilesGeneric(leftOrUpSlide, axis);
-		this->addRandomTile(2);
+		this->addRandomTile(1);
 		break;
 	case 75: // leftaxis
 		leftOrUpSlide = true;
 		axis = false;
 		this->slideTilesGeneric(leftOrUpSlide, axis);
-		this->addRandomTile(2);
+		this->addRandomTile(1);
 		break;
 	case 77: // right
 		leftOrUpSlide = false;
 		axis = false;
 		this->slideTilesGeneric(leftOrUpSlide, axis);
-		this->addRandomTile(2);
+		this->addRandomTile(1);
 		break;
 	}
 	//inputs[0] = 0;
