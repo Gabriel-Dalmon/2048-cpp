@@ -20,9 +20,12 @@ public:
 	int getGridLength(GridDimension lengthIndex);
 	void update(int slideDirection[4]);
 	void render(SDLScreen* screen);
+	int isGameOver();
 
 private:
 
+	bool hasGridTileValue(int tileValue);
+	SDL_Surface* background;
 	void generateGrid();
 	std::vector<int> getFreeCells();
 	void addRandomTile(int amountOfTiles);
