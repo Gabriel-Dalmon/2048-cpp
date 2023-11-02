@@ -7,17 +7,21 @@
 
 Board::Board(int sideSize): grid(sideSize)
 {
-	SDL_Rect rect;
-	this->rect = &rect;
-	this->rect->x = 0;
-	this->rect->y = 0;
+	this->rect = new SDL_Rect;
+	this->rect->x = GetSystemMetrics(SM_CXSCREEN)/2 - 246;
+	this->rect->y = GetSystemMetrics(SM_CYSCREEN)/2 - 246;
+	//std::cout << this->rect->x << "||" << this->rect->y;
+	this->rect->w = 496;
+	this->rect->h = 496;
 	this->generateGrid();
 	this->addRandomTile(2);
+	this->background = IMG_Load("src/assets/board_background.png");
 }
 
 Board::~Board()
 {
 	deleteGrid();
+	delete this->rect;
 }
 
 void Board::setGridToTemplate(Vector2D<int> gridTemplate) {
@@ -46,7 +50,7 @@ void Board::setGridToTemplate(Vector2D<int> gridTemplate) {
 
 void Board::render(SDLScreen* screen) 
 {
-	//
+	SDL_BlitSurface(this->background, NULL, screen->surface, this->rect);
 	for (int i = 0; i < this->grid.getSingleSize(0) * this->grid.getSingleSize(1); i++) {
 		this->grid[i]->render(screen);
 	}
@@ -97,10 +101,10 @@ void Board::generateGrid()
 	{
 		this->grid[i] = new Tile;
 		j = i % 4;
-		this->grid[i]->rect->x =  j * 116 + GetSystemMetrics(SM_CXSCREEN) / 2 - 200;
-		this->grid[i]->destRect->x =  j * 116 + GetSystemMetrics(SM_CXSCREEN) / 2 - 200;
-		this->grid[i]->rect->y = (i - j) * 29 + GetSystemMetrics(SM_CYSCREEN) / 2 - 200;
-		this->grid[i]->destRect->y = (i - j) * 29 + GetSystemMetrics(SM_CYSCREEN) / 2 - 200;
+		this->grid[i]->rect->x =  j * 116 + GetSystemMetrics(SM_CXSCREEN) / 2 - 232;
+		this->grid[i]->destRect->x =  j * 116 + GetSystemMetrics(SM_CXSCREEN) / 2 - 232;
+		this->grid[i]->rect->y = (i - j) * 29 + GetSystemMetrics(SM_CYSCREEN) / 2 - 232;
+		this->grid[i]->destRect->y = (i - j) * 29 + GetSystemMetrics(SM_CYSCREEN) / 2 - 232;
 	}
 }
 
@@ -226,4 +230,39 @@ void Board::slideTilesGeneric(bool leftOrUpSlide, bool axis) //axis : 1 = vertic
 	}
 }
 
-	
+
+bool Board::hasGridTileValue(int tileValue) {
+	for (int i = 0; i < this->grid.size(); i++) {
+		if (this->grid[i]->value == tileValue) {
+			return true;
+		}
+	}
+	return false;
+}
+
+
+int Board::isGameOver()
+{
+	int gridWidth = this->grid.getSingleSize(WIDTH);
+	int gridHeight = this->grid.getSingleSize(HEIGHT);
+	int isGameOver = this->hasGridTileValue(2048);
+
+	if (!this->hasGridTileValue(0) && !isGameOver) {
+		for (int row = 0; row < gridWidth; ++row) {
+			for (int column = 0; column < gridHeight - 1; ++column) {
+				if (this->grid(row, column)->value == this->grid(row, column + 1)->value) {
+					return 0;
+				}
+			}
+		}
+		for (int column = 0; column < gridHeight; ++column) {
+			for (int row = 0; row < gridWidth - 1; ++row) {
+				if (this->grid(row, column)->value == this->grid(row + 1, column)->value) {
+					return 0;
+				}
+			}
+		}
+		return 1;
+	}
+	return isGameOver * 2;
+}

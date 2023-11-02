@@ -22,7 +22,6 @@ public:
 	void(Tile::*renderPointer)(SDLScreen* screen);
 
 	SDL_Rect* destRect;
-
 	
 	void render(SDLScreen* screen);
 	void swap_render(int value);

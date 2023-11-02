@@ -15,7 +15,6 @@ SDLRenderer::SDLRenderer() {
 }
 
 SDLRenderer::~SDLRenderer() {
-	free(this->screen->surface); // pas sur que ca fonctionne / soit clean / soit util
 	SDL_DestroyWindow(this->screen->window);
 	delete this->screen;
 }
