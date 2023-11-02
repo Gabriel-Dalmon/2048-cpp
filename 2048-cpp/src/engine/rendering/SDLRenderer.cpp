@@ -24,8 +24,9 @@ SDLRenderer::~SDLRenderer() {
 }
 
 void SDLRenderer::render(GameObject* object){
-	SDL_RenderClear(this->screen->renderer);
 	SDL_FillRect(this->screen->surface, NULL, 0x000000);
-	object->render(this->screen);
+	for (int i = 0; i < sizeof(object) / sizeof(void*); i++) {
+		object->render(this->screen);
+	};
 	SDL_UpdateWindowSurface(this->screen->window);
 }

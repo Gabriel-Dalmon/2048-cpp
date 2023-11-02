@@ -18,7 +18,6 @@ void SDLInputManager::update()
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_KEYDOWN:
-                std::cout << "Key : " << event.key.keysym.sym << std::endl;
                 switch (event.key.keysym.sym) {
                     case SDLK_UP:
                         this->inputs[0] = 72;

@@ -32,4 +32,5 @@ private:
 	void animate();
 	static SDL_Surface* sprite;
 	TTF_Font* font; 
+	SDL_Surface* message;
 };

@@ -47,7 +47,7 @@ void Tile::render_smth(SDLScreen* screen){
 	sprintf_s(numberstring, "%d", this->value);
 
 	SDL_Color color = { 255, 255, 255, 0 };
-	SDL_Surface* message = TTF_RenderText_Blended(this->font, numberstring, color);
+	this->message = TTF_RenderText_Blended(this->font, numberstring, color);
 	SDL_BlitSurface(this->sprite, NULL, screen->surface, this->rect);
 	SDL_BlitSurface(message, NULL, screen->surface, this->rect);
 }
@@ -57,10 +57,10 @@ void Tile::swap_render(int value) {//0 for render_empty and 1 for render_smth
 }
 
 void Tile::animate() {
-	/*float deltaX = this->destRect->x - this->rect->x;
-	float deltaY = this->destRect->y - this->rect->y;
-	this->rect->x += int(std::ceil(deltaX / (this->destRect->x - deltaX + 1)));
-	this->rect->y += int(std::ceil(deltaY / (this->destRect->y - deltaY + 1)));*/
+		/*float deltaX = this->destRect->x - this->rect->x;
+		float deltaY = this->destRect->y - this->rect->y;
+		this->rect->x += int(std::ceil(deltaX / (this->destRect->x - deltaX + 1)));
+		this->rect->y += int(std::ceil(deltaY / (this->destRect->y - deltaY + 1)));*/
 
 	if (this->destRect->x > this->rect->x) {
 		this->rect->x += 1;
