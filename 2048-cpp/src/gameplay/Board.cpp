@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <Windows.h>
 
 #include "../../include/gamelogic/Board.h"
 #include "../../include/gamelogic/Tile.h"
@@ -21,7 +22,7 @@ Board::~Board()
 
 void Board::render(SDLScreen* screen) 
 {
-	for (int i = 0; i < this->grid.getSingleSize(0) * this->grid.getSingleSize(0); i++) {
+	for (int i = 0; i < this->grid.getSingleSize(0) * this->grid.getSingleSize(1); i++) {
 		this->grid[i]->render(screen);
 	}
 }
@@ -71,10 +72,10 @@ void Board::generateGrid()
 	{
 		this->grid[i] = new Tile;
 		j = i % 4;
-		this->grid[i]->rect->x =  j * 40;
-		this->grid[i]->destRect->x =  j * 40;
-		this->grid[i]->rect->y = (i - j) * 10;
-		this->grid[i]->destRect->y = (i - j) * 10;
+		this->grid[i]->rect->x =  j * 40 + GetSystemMetrics(SM_CXSCREEN) / 2 - 100;
+		this->grid[i]->destRect->x =  j * 40 + GetSystemMetrics(SM_CXSCREEN) / 2 - 100;
+		this->grid[i]->rect->y = (i - j) * 10 + GetSystemMetrics(SM_CYSCREEN) / 2 - 100;
+		this->grid[i]->destRect->y = (i - j) * 10 + GetSystemMetrics(SM_CYSCREEN) / 2 - 100;
 	}
 }
 

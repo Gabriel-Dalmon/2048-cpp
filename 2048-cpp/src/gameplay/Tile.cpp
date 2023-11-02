@@ -17,8 +17,8 @@ Tile::Tile() : GameObject() {
 	this->rect = new SDL_Rect;
 	this->rect->x = 0;
 	this->rect->y = 0;
-	this->rect->h = 40;
-	this->rect->w = 40;
+	this->rect->h = 80;
+	this->rect->w = 80;
 	this->destRect = new SDL_Rect;
 	(this->destRect->x, this->destRect->y, this->destRect->h, this->destRect->w) = (this->rect->x, this->rect->y, this->rect->h, this->rect->w);
 	this->renderPointer = &Tile::render_empty;
@@ -60,7 +60,9 @@ void Tile::animate() {
 		/*float deltaX = this->destRect->x - this->rect->x;
 		float deltaY = this->destRect->y - this->rect->y;
 		this->rect->x += int(std::ceil(deltaX / (this->destRect->x - deltaX + 1)));
-		this->rect->y += int(std::ceil(deltaY / (this->destRect->y - deltaY + 1)));*/
+		this->rect->y += int(std::ceil(deltaY / (this->destRect->y - deltaY + 1)));
+		std::cout << this->value << "||" << deltaX << "||" << int(std::ceil(deltaX / (this->destRect->x - deltaX + 1))) << std::endl;*/
+		
 
 	if (this->destRect->x > this->rect->x) {
 		this->rect->x += 1;
