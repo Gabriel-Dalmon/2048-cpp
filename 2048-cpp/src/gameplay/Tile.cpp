@@ -72,15 +72,15 @@ void Tile::animate() {
 		
 
 	if (this->destRect->x > this->rect->x) {
-		this->rect->x += 1;
+		this->rect->x += 2;
 	}
 	else if (this->destRect->x < this->rect->x) {
-		this->rect->x -= 1;
+		this->rect->x -= 2;
 	};
 	if (this->destRect->y > this->rect->y) {
-		this->rect->y += 1;
+		this->rect->y += 2;
 	}
 	else if (this->destRect->y < this->rect->y) {
-		this->rect->y -= 1;
+		this->rect->y -= 2;
 	};
 }

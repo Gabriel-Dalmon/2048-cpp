@@ -24,7 +24,7 @@ std::map<int, std::string> tilesColors{
 
 void ConsoleRenderer::render(GameObject* object) {
 	Board* board = (Board*)object;
-	system("cls");
+	//system("cls");
 	std::string tileColor = "0";
 	std::string topLine;
 	std::string midLine;

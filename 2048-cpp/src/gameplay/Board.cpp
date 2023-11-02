@@ -72,10 +72,10 @@ void Board::generateGrid()
 	{
 		this->grid[i] = new Tile;
 		j = i % 4;
-		this->grid[i]->rect->x =  j * 40 + GetSystemMetrics(SM_CXSCREEN) / 2 - 100;
-		this->grid[i]->destRect->x =  j * 40 + GetSystemMetrics(SM_CXSCREEN) / 2 - 100;
-		this->grid[i]->rect->y = (i - j) * 10 + GetSystemMetrics(SM_CYSCREEN) / 2 - 100;
-		this->grid[i]->destRect->y = (i - j) * 10 + GetSystemMetrics(SM_CYSCREEN) / 2 - 100;
+		this->grid[i]->rect->x =  j * 100 + GetSystemMetrics(SM_CXSCREEN) / 2 - 200;
+		this->grid[i]->destRect->x =  j * 100 + GetSystemMetrics(SM_CXSCREEN) / 2 - 200;
+		this->grid[i]->rect->y = (i - j) * 25 + GetSystemMetrics(SM_CYSCREEN) / 2 - 200;
+		this->grid[i]->destRect->y = (i - j) * 25 + GetSystemMetrics(SM_CYSCREEN) / 2 - 200;
 	}
 }
 
@@ -109,6 +109,8 @@ void Board::addRandomTile(int amountOfTiles)
 			int randomFreeCellIndex = rand() % freeCells.size();
 			int randomValue = 2 + 2*( rand() % 2); // 2 or 4
 			this->grid[freeCells[randomFreeCellIndex]]->value = randomValue;
+			this->grid[freeCells[randomFreeCellIndex]]->rect->x = this->grid[freeCells[randomFreeCellIndex]]->destRect->x;
+			this->grid[freeCells[randomFreeCellIndex]]->rect->y = this->grid[freeCells[randomFreeCellIndex]]->destRect->y;
 			this->grid[freeCells[randomFreeCellIndex]]->swap_render(1);
 			freeCells.erase(freeCells.begin() + randomFreeCellIndex);
 		}
