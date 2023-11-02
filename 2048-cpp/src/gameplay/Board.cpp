@@ -22,6 +22,7 @@ Board::~Board()
 
 void Board::render(SDLScreen* screen) 
 {
+	//
 	for (int i = 0; i < this->grid.getSingleSize(0) * this->grid.getSingleSize(1); i++) {
 		this->grid[i]->render(screen);
 	}
