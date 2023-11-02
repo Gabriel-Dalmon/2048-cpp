@@ -72,10 +72,10 @@ void Board::generateGrid()
 	{
 		this->grid[i] = new Tile;
 		j = i % 4;
-		this->grid[i]->rect->x =  j * 100 + GetSystemMetrics(SM_CXSCREEN) / 2 - 200;
-		this->grid[i]->destRect->x =  j * 100 + GetSystemMetrics(SM_CXSCREEN) / 2 - 200;
-		this->grid[i]->rect->y = (i - j) * 25 + GetSystemMetrics(SM_CYSCREEN) / 2 - 200;
-		this->grid[i]->destRect->y = (i - j) * 25 + GetSystemMetrics(SM_CYSCREEN) / 2 - 200;
+		this->grid[i]->rect->x =  j * 116 + GetSystemMetrics(SM_CXSCREEN) / 2 - 200;
+		this->grid[i]->destRect->x =  j * 116 + GetSystemMetrics(SM_CXSCREEN) / 2 - 200;
+		this->grid[i]->rect->y = (i - j) * 29 + GetSystemMetrics(SM_CYSCREEN) / 2 - 200;
+		this->grid[i]->destRect->y = (i - j) * 29 + GetSystemMetrics(SM_CYSCREEN) / 2 - 200;
 	}
 }
 
