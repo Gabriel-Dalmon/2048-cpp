@@ -21,8 +21,14 @@ int main(int argc, char* argv[1])
 
     int isPlaying = 1;
     int* inputs = inputManager->inputs;
-    int slideMovement[2];
+    /*
+    Vector2D<int> gridTemplate(4);
+    std::cout << "normal4" << std::endl;
 
+    for (int i = 0; i < gridTemplate.size(); ++i) {
+        gridTemplate[i] = 2048;
+    }
+    board->setGridToTemplate(gridTemplate);*/
     while (isPlaying == 1) {
         renderer->render(board);
         if (inputs[0]) {

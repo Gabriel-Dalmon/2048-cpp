@@ -20,6 +20,30 @@ Board::~Board()
 	deleteGrid();
 }
 
+void Board::setGridToTemplate(Vector2D<int> gridTemplate) {
+	int previousGridSize = this->grid.size();
+	int newGridWidth = gridTemplate.getSingleSize(WIDTH);
+	int newGridSize = gridTemplate.size();
+	this->grid.resize(newGridWidth);
+	int j;
+
+	//instanciates new Tiles if the resized grid is larger
+	for (int i = previousGridSize - 1; i < newGridSize; ++i) {
+		this->grid[i] = new Tile;
+	}
+
+	//assigns the new values to tiles from the template
+	for (int i = 0; i < newGridSize; i++)
+	{
+		j = i % newGridWidth;
+		this->grid[i]->rect->x = j * 116 + GetSystemMetrics(SM_CXSCREEN) / 2 - 200;
+		this->grid[i]->destRect->x = j * 116 + GetSystemMetrics(SM_CXSCREEN) / 2 - 200;
+		this->grid[i]->rect->y = (i - j) * 29 + GetSystemMetrics(SM_CYSCREEN) / 2 - 200;
+		this->grid[i]->destRect->y = (i - j) * 29 + GetSystemMetrics(SM_CYSCREEN) / 2 - 200;
+		this->grid[i]->value = gridTemplate[i];
+	}
+}
+
 void Board::render(SDLScreen* screen) 
 {
 	//
@@ -202,3 +226,4 @@ void Board::slideTilesGeneric(bool leftOrUpSlide, bool axis) //axis : 1 = vertic
 	}
 }
 
+	

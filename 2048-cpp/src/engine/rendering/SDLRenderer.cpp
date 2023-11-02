@@ -7,7 +7,6 @@
 
 SDLRenderer::SDLRenderer() {
 	SDL_Init(SDL_INIT_VIDEO);
-	IMG_INIT_PNG;
 	TTF_Init();
 	this->screen = new SDLScreen();
 	this->screen->window = SDL_CreateWindow("main", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SDL_WINDOW_RESIZABLE);

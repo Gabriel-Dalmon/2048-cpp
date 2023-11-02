@@ -20,6 +20,7 @@ public:
 	int getGridLength(GridDimension lengthIndex);
 	void update(int slideDirection[4]);
 	void render(SDLScreen* screen);
+	void setGridToTemplate(Vector2D<int> gridTemplate);
 
 private:
 
