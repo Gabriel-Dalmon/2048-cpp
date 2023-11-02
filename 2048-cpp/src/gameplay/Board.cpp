@@ -72,7 +72,9 @@ void Board::generateGrid()
 		this->grid[i] = new Tile;
 		j = i % 4;
 		this->grid[i]->rect->x =  j * 40;
+		this->grid[i]->destRect->x =  j * 40;
 		this->grid[i]->rect->y = (i - j) * 10;
+		this->grid[i]->destRect->y = (i - j) * 10;
 	}
 }
 
@@ -121,12 +123,12 @@ void Board::addRandomTile(int amountOfTiles)
 void Board::mergeTiles(int currentTileCursor, int targetTileCursor) {
 	Tile* currentTile = this->grid[currentTileCursor];
 	Tile* targetTile = this->grid[targetTileCursor];
-	int tmpX = targetTile->rect->x;
-	int tmpY = targetTile->rect->y;
-	targetTile->rect->x = currentTile->rect->x;
-	targetTile->rect->y = currentTile->rect->y;
-	currentTile->rect->x = tmpX;
-	currentTile->rect->y = tmpY;
+	int tmpX = targetTile->destRect->x;
+	int tmpY = targetTile->destRect->y;
+	targetTile->destRect->x = currentTile->destRect->x;
+	targetTile->destRect->y = currentTile->destRect->y;
+	currentTile->destRect->x = tmpX;
+	currentTile->destRect->y = tmpY;
 	currentTile->value += targetTile->value;
 	currentTile->mergedAlready = targetTile->value; //if merging with 0, mergedAlready remains false
 	currentTile->swap_render(1);

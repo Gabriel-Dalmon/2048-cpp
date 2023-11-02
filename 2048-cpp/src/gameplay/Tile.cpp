@@ -7,7 +7,7 @@
 #include "../../include/engine/SDLRenderer.h"
 
 SDL_Surface* Tile::sprite = IMG_Load("src/assets/tile.png");
-TTF_Font* Tile::font = TTF_OpenFont("src/assets/fonts/ttf-bitstream-vera-1.10/Vera.ttf", 16);
+//TTF_Font* Tile::font = TTF_OpenFont("src/assets/fonts/ttf-bitstream-vera-1.10/Vera.ttf", 16);
 
 
 
@@ -19,14 +19,17 @@ Tile::Tile() : GameObject() {
 	this->rect->y = 0;
 	this->rect->h = 40;
 	this->rect->w = 40;
+	this->destRect = new SDL_Rect;
+	(this->destRect->x, this->destRect->y, this->destRect->h, this->destRect->w) = (this->rect->x, this->rect->y, this->rect->h, this->rect->w);
 	this->renderPointer = &Tile::render_empty;
 	this->renderArray[0] = &Tile::render_empty;
 	this->renderArray[1] = &Tile::render_smth;
-	//this->font = TTF_OpenFont("src/assets/fonts/ttf-bitstream-vera-1.10/Vera.ttf", 16);
+	this->font = TTF_OpenFont("src/assets/fonts/ttf-bitstream-vera-1.10/Vera.ttf", 16);
 }
 
 Tile::~Tile() {
 	delete this->rect;
+	delete this->destRect;
 }
 
 
@@ -38,6 +41,8 @@ void Tile::render_empty(SDLScreen* screen){}
 
 
 void Tile::render_smth(SDLScreen* screen){
+	animate();
+
 	char numberstring[(((sizeof(this->value)) * CHAR_BIT) + 2) / 3 + 2];
 	sprintf_s(numberstring, "%d", this->value);
 
@@ -49,4 +54,24 @@ void Tile::render_smth(SDLScreen* screen){
 
 void Tile::swap_render(int value) {//0 for render_empty and 1 for render_smth
 	this->renderPointer = this->renderArray[value];
+}
+
+void Tile::animate() {
+	/*float deltaX = this->destRect->x - this->rect->x;
+	float deltaY = this->destRect->y - this->rect->y;
+	this->rect->x += int(std::ceil(deltaX / (this->destRect->x - deltaX + 1)));
+	this->rect->y += int(std::ceil(deltaY / (this->destRect->y - deltaY + 1)));*/
+
+	if (this->destRect->x > this->rect->x) {
+		this->rect->x += 1;
+	}
+	else if (this->destRect->x < this->rect->x) {
+		this->rect->x -= 1;
+	};
+	if (this->destRect->y > this->rect->y) {
+		this->rect->y += 1;
+	}
+	else if (this->destRect->y < this->rect->y) {
+		this->rect->y -= 1;
+	};
 }

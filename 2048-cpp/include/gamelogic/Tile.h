@@ -20,6 +20,8 @@ public:
 
 	void(Tile::*renderPointer)(SDLScreen* screen);
 
+	SDL_Rect* destRect;
+
 	
 	void render(SDLScreen* screen);
 	void swap_render(int value);
@@ -27,6 +29,7 @@ public:
 private:
 	void render_empty(SDLScreen* screen);
 	void render_smth(SDLScreen* screen);
+	void animate();
 	static SDL_Surface* sprite;
-	static TTF_Font* font; 
+	TTF_Font* font; 
 };
