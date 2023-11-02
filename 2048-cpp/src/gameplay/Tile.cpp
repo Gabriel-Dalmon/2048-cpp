@@ -2,13 +2,23 @@
 #include <SDL_image.h>
 #include <iostream>
 #include <SDL_ttf.h>
-
+#include <unordered_map>
 #include "../../include/gamelogic/Tile.h"
 #include "../../include/engine/SDLRenderer.h"
 
-SDL_Surface* Tile::sprite = IMG_Load("src/assets/tile.png");
-//TTF_Font* Tile::font = TTF_OpenFont("src/assets/fonts/ttf-bitstream-vera-1.10/Vera.ttf", 16);
-
+std::unordered_map<int, SDL_Surface*> Tile::tilesSpritesMap {
+	{2, IMG_Load("src/assets/tiles/tile_2.png")},
+	{4, IMG_Load("src/assets/tiles/tile_4.png")},
+	{8, IMG_Load("src/assets/tiles/tile_8.png")},
+	{16, IMG_Load("src/assets/tiles/tile_16.png")},
+	{32, IMG_Load("src/assets/tiles/tile_32.png")},
+	{64, IMG_Load("src/assets/tiles/tile_64.png")},
+	{128, IMG_Load("src/assets/tiles/tile_128.png")},
+	{256, IMG_Load("src/assets/tiles/tile_256.png")},
+	{512, IMG_Load("src/assets/tiles/tile_512.png")},
+	{1024, IMG_Load("src/assets/tiles/tile_1024.png")},
+	{2048, IMG_Load("src/assets/tiles/tile_2048.png")}
+};
 
 
 Tile::Tile() : GameObject() {
@@ -24,7 +34,6 @@ Tile::Tile() : GameObject() {
 	this->renderPointer = &Tile::render_empty;
 	this->renderArray[0] = &Tile::render_empty;
 	this->renderArray[1] = &Tile::render_smth;
-	this->font = TTF_OpenFont("src/assets/fonts/ttf-bitstream-vera-1.10/Vera.ttf", 16);
 }
 
 Tile::~Tile() {
@@ -47,9 +56,7 @@ void Tile::render_smth(SDLScreen* screen){
 	sprintf_s(numberstring, "%d", this->value);
 
 	SDL_Color color = { 255, 255, 255, 0 };
-	this->message = TTF_RenderText_Blended(this->font, numberstring, color);
-	SDL_BlitSurface(this->sprite, NULL, screen->surface, this->rect);
-	SDL_BlitSurface(message, NULL, screen->surface, this->rect);
+	SDL_BlitSurface(this->tilesSpritesMap[this->value], NULL, screen->surface, this->rect);
 }
 
 void Tile::swap_render(int value) {//0 for render_empty and 1 for render_smth

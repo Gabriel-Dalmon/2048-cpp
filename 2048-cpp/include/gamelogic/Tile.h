@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <unordered_map>
 
 #include "GameObject.h"
 
@@ -30,7 +31,5 @@ private:
 	void render_empty(SDLScreen* screen);
 	void render_smth(SDLScreen* screen);
 	void animate();
-	static SDL_Surface* sprite;
-	TTF_Font* font; 
-	SDL_Surface* message;
+	static std::unordered_map<int, SDL_Surface*> tilesSpritesMap;
 };
