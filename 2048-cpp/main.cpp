@@ -39,7 +39,7 @@ int main(int argc, char* argv[1])
                                    1024, 0, 0, 0,
                                    0, 0, 0, 0 };
 
-    //board->setGridToTemplate(loosingBoard);
+    board->setGridToTemplate(loosingBoard);
     consoleRenderer->render(board);
     while (!board->isGameOver() && !inputs[1]) {
         renderer->render(board);

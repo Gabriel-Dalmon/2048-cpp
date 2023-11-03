@@ -46,10 +46,10 @@ void Board::setGridToTemplate(Vector2D<int> gridTemplate) {
 		this->grid[i]->destRect->y = (i - j) * 29 + GetSystemMetrics(SM_CYSCREEN) / 2 - 200;
 		this->grid[i]->value = gridTemplate[i];
 		if (this->grid[i]->value) {
-			this->grid[i]->swap_render(1);
+			this->grid[i]->swapRender(1);
 		}
 		else {
-			this->grid[i]->swap_render(0);
+			this->grid[i]->swapRender(0);
 		}
 	}
 }
@@ -141,7 +141,7 @@ void Board::addRandomTile(int amountOfTiles)
 			this->grid[freeCells[randomFreeCellIndex]]->value = randomValue;
 			this->grid[freeCells[randomFreeCellIndex]]->rect->x = this->grid[freeCells[randomFreeCellIndex]]->destRect->x;
 			this->grid[freeCells[randomFreeCellIndex]]->rect->y = this->grid[freeCells[randomFreeCellIndex]]->destRect->y;
-			this->grid[freeCells[randomFreeCellIndex]]->swap_render(1);
+			this->grid[freeCells[randomFreeCellIndex]]->swapRender(1);
 			freeCells.erase(freeCells.begin() + randomFreeCellIndex);
 		}
 		else {
@@ -164,9 +164,9 @@ void Board::mergeTiles(int currentTileCursor, int targetTileCursor) {
 	currentTile->destRect->y = tmpY;
 	currentTile->value += targetTile->value;
 	currentTile->mergedAlready = targetTile->value; //if merging with 0, mergedAlready remains false
-	currentTile->swap_render(1);
+	currentTile->swapRender(1);
 	targetTile->value = 0;
-	targetTile->swap_render(0);
+	targetTile->swapRender(0);
 	this->grid[targetTileCursor] = currentTile;
 	this->grid[currentTileCursor] = targetTile;
 }

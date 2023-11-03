@@ -24,11 +24,11 @@ public:
 	SDL_Rect* destRect;
 	
 	void render(SDLScreen* screen);
-	void swap_render(int value);
+	void swapRender(int value);
 
 private:
-	void render_empty(SDLScreen* screen);
-	void render_smth(SDLScreen* screen);
+	void renderEmpty(SDLScreen* screen);
+	void renderVisible(SDLScreen* screen);
 	void animate();
 	static std::unordered_map<int, SDL_Surface*> tilesSpritesMap;
 };

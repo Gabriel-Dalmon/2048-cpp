@@ -32,9 +32,9 @@ Tile::Tile() : GameObject() {
 	this->rect->w = 80;
 	this->destRect = new SDL_Rect;
 	(this->destRect->x, this->destRect->y, this->destRect->h, this->destRect->w) = (this->rect->x, this->rect->y, this->rect->h, this->rect->w);
-	this->renderPointer = &Tile::render_empty;
-	this->renderArray[0] = &Tile::render_empty;
-	this->renderArray[1] = &Tile::render_smth;
+	this->renderPointer = &Tile::renderEmpty;
+	this->renderArray[0] = &Tile::renderEmpty;
+	this->renderArray[1] = &Tile::renderVisible;
 }
 
 Tile::~Tile() {
@@ -47,10 +47,10 @@ void Tile::render(SDLScreen* screen) {
 	(this->*renderPointer)(screen);
 }
 
-void Tile::render_empty(SDLScreen* screen){}
+void Tile::renderEmpty(SDLScreen* screen){}
 
 
-void Tile::render_smth(SDLScreen* screen){
+void Tile::renderVisible(SDLScreen* screen){
 	animate();
 
 	char numberstring[(((sizeof(this->value)) * CHAR_BIT) + 2) / 3 + 2];
@@ -60,7 +60,7 @@ void Tile::render_smth(SDLScreen* screen){
 	SDL_BlitSurface(this->tilesSpritesMap[this->value], NULL, screen->surface, this->rect);
 }
 
-void Tile::swap_render(int value) {//0 for render_empty and 1 for render_smth
+void Tile::swapRender(int value) {//0 for renderEmpty and 1 for renderVisible
 	this->renderPointer = this->renderArray[value];
 }
 
