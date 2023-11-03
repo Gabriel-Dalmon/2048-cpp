@@ -48,6 +48,9 @@
     <ClCompile Include="src\utils\BitMaths.cpp">
       <Filter>Sources files</Filter>
     </ClCompile>
+    <ClCompile Include="src\gameplay\TextObject.cpp">
+      <Filter>Sources files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\engine\AbstractRenderer.h">
@@ -78,6 +81,9 @@
       <Filter>Headers files</Filter>
     </ClInclude>
     <ClInclude Include="include\utils\BitMaths.h">
+      <Filter>Headers files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\gamelogic\TextObject.h">
       <Filter>Headers files</Filter>
     </ClInclude>
   </ItemGroup>
