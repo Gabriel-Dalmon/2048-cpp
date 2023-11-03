@@ -45,6 +45,9 @@
     <ClCompile Include="include\engine\SDLInputManager.h">
       <Filter>Headers files</Filter>
     </ClCompile>
+    <ClCompile Include="src\utils\BitMaths.cpp">
+      <Filter>Sources files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\engine\AbstractRenderer.h">
@@ -72,6 +75,9 @@
       <Filter>Headers files</Filter>
     </ClInclude>
     <ClInclude Include="include\utils\Vector2D.h">
+      <Filter>Headers files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\BitMaths.h">
       <Filter>Headers files</Filter>
     </ClInclude>
   </ItemGroup>

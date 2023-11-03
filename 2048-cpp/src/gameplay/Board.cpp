@@ -45,6 +45,12 @@ void Board::setGridToTemplate(Vector2D<int> gridTemplate) {
 		this->grid[i]->rect->y = (i - j) * 29 + GetSystemMetrics(SM_CYSCREEN) / 2 - 200;
 		this->grid[i]->destRect->y = (i - j) * 29 + GetSystemMetrics(SM_CYSCREEN) / 2 - 200;
 		this->grid[i]->value = gridTemplate[i];
+		if (this->grid[i]->value) {
+			this->grid[i]->swap_render(1);
+		}
+		else {
+			this->grid[i]->swap_render(0);
+		}
 	}
 }
 
@@ -70,25 +76,21 @@ void Board::update(int inputs[4])
 		leftOrUpSlide = true;
 		axis = true;
 		this->slideTilesGeneric(leftOrUpSlide, axis);
-		this->addRandomTile(1);
 		break;
 	case 80: // down
 		leftOrUpSlide = false;
 		axis = true;
 		this->slideTilesGeneric(leftOrUpSlide, axis);
-		this->addRandomTile(1);
 		break;
 	case 75: // leftaxis
 		leftOrUpSlide = true;
 		axis = false;
 		this->slideTilesGeneric(leftOrUpSlide, axis);
-		this->addRandomTile(1);
 		break;
 	case 77: // right
 		leftOrUpSlide = false;
 		axis = false;
 		this->slideTilesGeneric(leftOrUpSlide, axis);
-		this->addRandomTile(1);
 		break;
 	}
 	//inputs[0] = 0;
@@ -130,7 +132,6 @@ std::vector<int> Board::getFreeCells()
 
 void Board::addRandomTile(int amountOfTiles)
 {
-	
 	std::vector<int> freeCells = this->getFreeCells();
 	for (int i = 0; i < amountOfTiles; i++) 
 	{
@@ -196,6 +197,8 @@ void Board::slideTilesGeneric(bool leftOrUpSlide, bool axis) //axis : 1 = vertic
 	int slideOffset, cursor, targetCursor;
 	Tile* currentTile, * slideTargetTile;
 
+	bool hasMoved = false;
+
 	this->resetLockedTilesMergeStatus(rightOrDownSlide, axis);
 
 	//move tiles
@@ -216,8 +219,7 @@ void Board::slideTilesGeneric(bool leftOrUpSlide, bool axis) //axis : 1 = vertic
 					slideTargetTile = this->grid[targetCursor];
 					if (slideTargetTile->value == 0 || (currentTile->value == slideTargetTile->value && !slideTargetTile->mergedAlready && !currentTile->mergedAlready)) {
 						this->mergeTiles(cursor, targetCursor);
-						int x = (row + rowSlideDirection * (slideOffset));
-						int y = (column + columnSlideDirection * (slideOffset));
+						hasMoved = true;
 					}
 					else {
 						slideOffset = j;
@@ -227,6 +229,9 @@ void Board::slideTilesGeneric(bool leftOrUpSlide, bool axis) //axis : 1 = vertic
 				}
 			}
 		}
+	}
+	if (hasMoved) {
+		this->addRandomTile(1);
 	}
 }
 

@@ -28,6 +28,7 @@
     <ClCompile Include="src\engine\rendering\SDLRenderer.cpp" />
     <ClCompile Include="src\gameplay\Board.cpp" />
     <ClCompile Include="src\gameplay\Tile.cpp" />
+    <ClCompile Include="src\utils\BitMaths.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="data\globals.h" />
@@ -38,6 +39,7 @@
     <ClInclude Include="include\engine\SDLRenderer.h" />
     <ClInclude Include="include\gamelogic\Board.h" />
     <ClInclude Include="include\gamelogic\Tile.h" />
+    <ClInclude Include="include\utils\BitMaths.h" />
     <ClInclude Include="include\utils\Vector2D.h" />
   </ItemGroup>
   <ItemGroup>

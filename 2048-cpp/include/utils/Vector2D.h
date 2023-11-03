@@ -15,6 +15,11 @@ public:
         this->sizes[0] = size;
         this->sizes[1] = size;
     };
+    Vector2D(std::initializer_list<T> initializerList) : std::vector<T>(initializerList) {
+        //update the this->sizes
+        this->sizes[0] = std::sqrt(initializerList.size());
+        this->sizes[1] = std::sqrt(initializerList.size());
+    };
 
     Vector2D(int width, int height) : std::vector<T>(width* height) {
         this->sizes[0] = width;

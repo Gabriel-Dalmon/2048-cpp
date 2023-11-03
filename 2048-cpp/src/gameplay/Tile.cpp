@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include "../../include/gamelogic/Tile.h"
 #include "../../include/engine/SDLRenderer.h"
+#include "../../include/utils/BitMaths.h"
 
 std::unordered_map<int, SDL_Surface*> Tile::tilesSpritesMap {
 	{2, IMG_Load("src/assets/tiles/tile_2.png")},
@@ -64,23 +65,45 @@ void Tile::swap_render(int value) {//0 for render_empty and 1 for render_smth
 }
 
 void Tile::animate() {
-		/*float deltaX = this->destRect->x - this->rect->x;
-		float deltaY = this->destRect->y - this->rect->y;
-		this->rect->x += int(std::ceil(deltaX / (this->destRect->x - deltaX + 1)));
-		this->rect->y += int(std::ceil(deltaY / (this->destRect->y - deltaY + 1)));
-		std::cout << this->value << "||" << deltaX << "||" << int(std::ceil(deltaX / (this->destRect->x - deltaX + 1))) << std::endl;*/
 		
+	int bitSignMaskX, bitSignMaskY;
+	float deltaX = absBitOperation(this->destRect->x - this->rect->x, &bitSignMaskX);
+	float deltaY = absBitOperation(this->destRect->y - this->rect->y, &bitSignMaskY);
+	int dirX = bitSignMaskX + 1 * (bitSignMaskX + 1);
+	int dirY = bitSignMaskY + 1 * (bitSignMaskY + 1);
 
+	if ((-10 < deltaX && deltaX < 0) || (0 < deltaX && deltaX < 10)) {
+		this->rect->x = this->destRect->x;
+	}
+	else {
+		this->rect->x += dirX * int(std::ceil(deltaX / 10));
+	}
+
+	if ((-10 < deltaY && deltaY < 0) || (0 < deltaY && deltaY < 10)) {
+		this->rect->y = this->destRect->y;
+	}
+	else {
+		this->rect->y += dirY * int(std::ceil(deltaY / 10));
+	}
+
+
+	/*float deltaX = this->destRect->x - this->rect->x;
+	float deltaY = this->destRect->y - this->rect->y;
+	this->rect->x += int(std::ceil(deltaX / (this->destRect->x - deltaX + 1)));
+	this->rect->y += int(std::ceil(deltaY / (this->destRect->y - deltaY + 1)));
+	std::cout << this->value << "||" << deltaX << "||" << int(std::ceil(deltaX / (this->destRect->x - deltaX + 1))) << std::endl;*/
+
+	/*
 	if (this->destRect->x > this->rect->x) {
-		this->rect->x += 2;
+		this->rect->x += 4;
 	}
 	else if (this->destRect->x < this->rect->x) {
-		this->rect->x -= 2;
+		this->rect->x -= 4;
 	};
 	if (this->destRect->y > this->rect->y) {
-		this->rect->y += 2;
+		this->rect->y += 4;
 	}
 	else if (this->destRect->y < this->rect->y) {
-		this->rect->y -= 2;
-	};
+		this->rect->y -= 4;
+	};*/
 }

@@ -31,6 +31,9 @@ void SDLInputManager::update()
                     case SDLK_RIGHT:
                         this->inputs[0] = 77;
                         break;
+                    case SDLK_ESCAPE:
+                        this->inputs[1] = 27;
+						break;
                 }
             }
     }

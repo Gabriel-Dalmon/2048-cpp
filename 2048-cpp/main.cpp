@@ -24,15 +24,24 @@ int main(int argc, char* argv[1])
 
     int isPlaying = 1;
     int* inputs = inputManager->inputs;
-    /*
-    Vector2D<int> gridTemplate(4);
-    std::cout << "normal4" << std::endl;
+    /*Vector2D<int> gridTemplate = {  0, 0, 0, 0,
+                                      0, 0, 0, 0,
+                                      0, 0, 0, 0,
+                                      0, 0, 0, 0 };*/
 
-    for (int i = 0; i < gridTemplate.size(); ++i) {
-        gridTemplate[i] = 2048;
-    }
-    board->setGridToTemplate(gridTemplate);*/
-    while (! board->isGameOver()) {
+    Vector2D<int> loosingBoard = {  8, 16, 32, 64,
+                                    1024, 512, 256, 128,
+                                    8, 16, 32, 0,
+                                    512, 256, 128, 64 };
+
+    Vector2D<int> winningBoard = { 0, 0, 0, 0,
+                                   0, 0, 0, 1024,
+                                   1024, 0, 0, 0,
+                                   0, 0, 0, 0 };
+
+    //board->setGridToTemplate(loosingBoard);
+    consoleRenderer->render(board);
+    while (!board->isGameOver() && !inputs[1]) {
         renderer->render(board);
         if (inputs[0]) {
             consoleRenderer->render(board);
@@ -44,14 +53,11 @@ int main(int argc, char* argv[1])
 
     if (board->isGameOver() == 1) {
         GameObject fontScreen;
-        std::cout << "hhhhhhhhhhhhhhhhhhh";
+        std::cout << "Loose";
     }
     else {
-        
+        std::cout << "Win";
     }
-    
-    
-    
 
     delete inputManager;
     delete board;
