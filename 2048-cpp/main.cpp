@@ -24,7 +24,7 @@ int main(int argc, char* argv[1])
     SDLRenderer* renderer = new SDLRenderer();
     SDLInputManager* inputManager = new SDLInputManager();
     Board* board = new Board(4);
-    std::vector<GameObject*> gameObjects;
+    //std::vector<GameObject*> gameObjects;
 
     int isPlaying = 1;
     int* inputs = inputManager->inputs;
@@ -32,7 +32,7 @@ int main(int argc, char* argv[1])
     //makeUnitaryTest(board);
 
     consoleRenderer->render(board);
-    gameObjects.push_back((GameObject*)board);
+    //gameObjects.push_back((GameObject*)board);
     while (!board->isGameOver() && !inputs[1]) {
         renderer->render(board);
         if (inputs[0]) {
@@ -50,7 +50,7 @@ int main(int argc, char* argv[1])
         const char* text = "lose";
         const char* path = "src/assets/fonts/ttf-bitstream-vera-1.10/Vera.ttf";
         TextObject loseScreen(text, &rect, path, color, 16);
-        gameObjects.push_back((GameObject*)&loseScreen);
+        //gameObjects.push_back((GameObject*)&loseScreen);
         while (true) {
             //renderer->render(gameObjects);
             inputManager->update();
